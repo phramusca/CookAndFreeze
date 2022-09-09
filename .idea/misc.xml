@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../Android/Sdk/platforms/android-32/data/res/layout/auto_complete_list.xml" value="0.15572916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/dialog_signin.xml" value="0.14635416666666667" />
       </map>
     </option>
   </component>

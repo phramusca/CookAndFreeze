@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,6 +15,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
+import org.phramusca.cookandfreeze.databinding.DialogSigninBinding;
 import org.phramusca.cookandfreeze.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,13 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         qrScan = new IntentIntegrator(this);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                qrScan.initiateScan();
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-            }
+        fab.setOnClickListener(view -> {
+            qrScan.initiateScan();
+            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            //        .setAction("Action", null).show();
         });
     }
 
@@ -55,10 +54,27 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
             } else {
                 String content = result.getContents();
-                Toast.makeText(this, content, Toast.LENGTH_LONG).show();
+                promptInfo(content);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void promptInfo(String content) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_signin, null);
+        DialogSigninBinding dialogSigninBinding = DialogSigninBinding.bind(view);
+        dialogSigninBinding.title.setText(content);
+        builder
+                .setView(view)
+                .setPositiveButton("Positive", (dialog, id) -> {
+                    Toast.makeText(getApplicationContext(), "Username: " + dialogSigninBinding.username.getText() + ", password: " + dialogSigninBinding.password.getText(), Toast.LENGTH_LONG).show();
+                })
+                .setNegativeButton("Negative", (dialog, id) -> {
+                    dialog.cancel();
+                })
+                .create()
+                .show();
     }
 }
