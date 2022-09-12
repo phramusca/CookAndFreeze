@@ -52,7 +52,14 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = binding.fab;
+
         qrScan = new IntentIntegrator(this);
+        qrScan.setPrompt("Scan a barcode on a recipient.");
+        qrScan.setCameraId(0);  // Use a specific camera of the device
+        qrScan.setOrientationLocked(true);
+        qrScan.setBeepEnabled(true);
+        qrScan.setCaptureActivity(CaptureActivityPortrait.class);
+
         fab.setOnClickListener(view -> {
             qrScan.initiateScan();
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
