@@ -21,11 +21,6 @@ public class DbSchema extends SQLiteOpenHelper {
             + COL_NUMBER + " INTEGER NOT NULL, " //NON-NLS
             + COL_CONTENT + " TEXT NOT NULL); "; //NON-NLS
 
-    //By default store in user internal folder
-    //public MusicLibraryDb(Context context) {
-    //    super(context, DB_NAME, null, DB_VERSION); //NON-NLS
-    //}
-
     DbSchema(final Context context) {
         super(context,Environment.getExternalStorageDirectory()
                     + "/"+context.getResources().getString(R.string.app_name)

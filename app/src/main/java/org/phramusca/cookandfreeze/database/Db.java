@@ -29,7 +29,7 @@ public class Db {
         db.close();
     }
 
-    public synchronized boolean insertOrUpdateRecipient(int number, String uuid, String content) {
+    public synchronized void insertOrUpdateRecipient(int number, String uuid, String content) {
         String log = "insertOrUpdateRecipient(" + number + ", " + uuid + ", " + content + ")"; //NON-NLS
         try {
             Log.d(TAG, log);
@@ -37,22 +37,17 @@ public class Db {
             values.put(COL_NUMBER, number);
             values.put(COL_UUID, uuid);
             values.put(COL_CONTENT, content);
-            int id = (int) db.insertWithOnConflict(
+            db.insertWithOnConflict(
                     TABLE_RECIPIENTS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-            if (id > 0) {
-                return true;
-            }
         } catch (SQLiteException | IllegalStateException ex) {
             Log.e(TAG, log, ex);
         }
-        return false;
     }
 
     public Cursor getRecipient(String uuid) {
         try {
-            Cursor cursor = db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_NUMBER, COL_UUID},
+            return db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_NUMBER, COL_UUID},
                     COL_UUID + "=?", new String[]{uuid}, null, null, COL_NUMBER);
-            return cursor;
         } catch (SQLiteException | IllegalStateException ex) { //NON-NLS
             Log.e(TAG, "getRecipient()", ex); //NON-NLS
         }
