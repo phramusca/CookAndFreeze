@@ -1,9 +1,9 @@
 package org.phramusca.cookandfreeze.database;
 
-import static org.phramusca.cookandfreeze.database.MusicLibraryDb.COL_CONTENT;
-import static org.phramusca.cookandfreeze.database.MusicLibraryDb.COL_NUMBER;
-import static org.phramusca.cookandfreeze.database.MusicLibraryDb.COL_UUID;
-import static org.phramusca.cookandfreeze.database.MusicLibraryDb.TABLE_RECIPIENTS;
+import static org.phramusca.cookandfreeze.database.DbSchema.COL_CONTENT;
+import static org.phramusca.cookandfreeze.database.DbSchema.COL_NUMBER;
+import static org.phramusca.cookandfreeze.database.DbSchema.COL_UUID;
+import static org.phramusca.cookandfreeze.database.DbSchema.TABLE_RECIPIENTS;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,17 +12,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-public class MusicLibrary {
+public class Db {
     SQLiteDatabase db;
-    private final MusicLibraryDb musicLibraryDb;
-    private static final String TAG = MusicLibrary.class.getName();
+    private final DbSchema dbSchema;
+    private static final String TAG = Db.class.getName();
 
-    MusicLibrary(Context context) {
-        musicLibraryDb = new MusicLibraryDb(context);
+    Db(Context context) {
+        dbSchema = new DbSchema(context);
     }
 
     public synchronized void open() {
-        db = musicLibraryDb.getWritableDatabase();
+        db = dbSchema.getWritableDatabase();
     }
 
     public synchronized void close() {

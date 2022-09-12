@@ -7,7 +7,7 @@ import android.os.Environment;
 
 import org.phramusca.cookandfreeze.R;
 
-public class MusicLibraryDb extends SQLiteOpenHelper {
+public class DbSchema extends SQLiteOpenHelper {
 
     private static final int DB_VERSION = 1;
 
@@ -26,7 +26,7 @@ public class MusicLibraryDb extends SQLiteOpenHelper {
     //    super(context, DB_NAME, null, DB_VERSION); //NON-NLS
     //}
 
-    MusicLibraryDb(final Context context) {
+    DbSchema(final Context context) {
         super(context,Environment.getExternalStorageDirectory()
                     + "/"+context.getResources().getString(R.string.app_name)
                         +"/"+context.getResources().getString(R.string.app_name)+".db",
