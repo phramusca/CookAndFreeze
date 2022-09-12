@@ -1,12 +1,23 @@
 package org.phramusca.cookandfreeze;
 
+import static org.phramusca.cookandfreeze.database.MusicLibraryDb.COL_NUMBER;
+import static org.phramusca.cookandfreeze.database.MusicLibraryDb.COL_UUID;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -14,13 +25,14 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.phramusca.cookandfreeze.database.HelperLibrary;
+import org.phramusca.cookandfreeze.database.MusicLibraryDb;
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
-import org.phramusca.cookandfreeze.databinding.DialogSigninBinding;
+import org.phramusca.cookandfreeze.databinding.DialogModificationBinding;
+import org.phramusca.cookandfreeze.ui.main.CaptureActivityPortrait;
 import org.phramusca.cookandfreeze.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
-    private ActivityMainBinding binding;
 
     private IntentIntegrator qrScan;
 
@@ -28,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        checkPermissionsAndConnectDatabase();
+
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -36,10 +50,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
+
         FloatingActionButton fab = binding.fab;
-
         qrScan = new IntentIntegrator(this);
-
         fab.setOnClickListener(view -> {
             qrScan.initiateScan();
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -54,27 +67,100 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
             } else {
                 String content = result.getContents();
-                promptInfo(content);
+                promptRecipient(content);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void promptInfo(String content) {
+    @SuppressLint("Range")
+    private void promptRecipient(String uuid) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_signin, null);
-        DialogSigninBinding dialogSigninBinding = DialogSigninBinding.bind(view);
-        dialogSigninBinding.title.setText(content);
+        View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
+        DialogModificationBinding dialogModificationBinding = DialogModificationBinding.bind(view);
+        dialogModificationBinding.uuid.setText(uuid);
+
+        Cursor recipient = HelperLibrary.musicLibrary.getRecipient(uuid);
+        if(recipient!=null && recipient.moveToFirst()) {
+            //TODO: Create a Recipient class
+            dialogModificationBinding.number.setText(recipient.getString(recipient.getColumnIndex(COL_NUMBER)));
+            dialogModificationBinding.content.setText(recipient.getString(recipient.getColumnIndex(MusicLibraryDb.COL_CONTENT)));
+        }
+
         builder
                 .setView(view)
-                .setPositiveButton("Positive", (dialog, id) -> {
-                    Toast.makeText(getApplicationContext(), "Username: " + dialogSigninBinding.username.getText() + ", password: " + dialogSigninBinding.password.getText(), Toast.LENGTH_LONG).show();
+                .setPositiveButton("Modifier", (dialog, id) -> {
+                    HelperLibrary.musicLibrary.insertOrUpdateRecipient(
+                            Integer.parseInt(dialogModificationBinding.number.getText().toString()),
+                            dialogModificationBinding.uuid.getText().toString(),
+                            dialogModificationBinding.content.getText().toString());
                 })
-                .setNegativeButton("Negative", (dialog, id) -> {
+                .setNegativeButton("Cancel", (dialog, id) -> {
                     dialog.cancel();
                 })
                 .create()
                 .show();
+    }
+
+    private final String[] PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    private static final int REQUEST = 15694;
+
+    public void checkPermissionsAndConnectDatabase() {
+        if (!hasPermissions(this, PERMISSIONS)) {
+//            String msgStr = "<html>Please approve the permissions to allow reading and writing to the database.</html>";
+//            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+//            alertDialog.setTitle("Permissions needed");
+//            alertDialog.setMessage(Html.fromHtml(msgStr));
+//            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+//                    (dialog, which) -> {
+//                        dialog.dismiss();
+//                        askPermissions();
+//                    });
+//            alertDialog.show();
+
+            askPermissions();
+        } else {
+            connectDatabase();
+        }
+    }
+
+    private void askPermissions() {
+        ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST);
+    }
+
+    private static boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            connectDatabase();
+        }
+    }
+
+    private void connectDatabase() {
+        HelperLibrary.open(this);
+
+//        new Thread() {
+//            public void run() {
+//                setupTags();
+//                setupGenres();
+//                setupLocalPlaylistsThenStartServiceScan();
+//            }
+//        }.start();
     }
 }
