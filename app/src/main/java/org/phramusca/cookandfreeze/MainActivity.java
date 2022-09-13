@@ -1,13 +1,10 @@
 package org.phramusca.cookandfreeze;
 
-import static org.phramusca.cookandfreeze.database.DbSchema.COL_NUMBER;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -24,10 +21,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.phramusca.cookandfreeze.database.DbSchema;
 import org.phramusca.cookandfreeze.database.HelperDb;
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
 import org.phramusca.cookandfreeze.databinding.DialogModificationBinding;
+import org.phramusca.cookandfreeze.models.Recipient;
+import org.phramusca.cookandfreeze.helpers.HelperDateTime;
 import org.phramusca.cookandfreeze.ui.main.CaptureActivityPortrait;
 import org.phramusca.cookandfreeze.ui.main.SectionsPagerAdapter;
 
@@ -87,23 +85,18 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
         DialogModificationBinding dialogModificationBinding = DialogModificationBinding.bind(view);
-        dialogModificationBinding.uuid.setText(uuid);
 
-        Cursor recipient = HelperDb.db.getRecipient(uuid);
-        if(recipient!=null && recipient.moveToFirst()) {
-            //TODO: Create a Recipient class
-            dialogModificationBinding.number.setText(
-                    recipient.getString(recipient.getColumnIndex(COL_NUMBER)));
-            dialogModificationBinding.content.setText(
-                    recipient.getString(recipient.getColumnIndex(DbSchema.COL_CONTENT)));
-        }
+        Recipient recipient = HelperDb.db.getRecipient(uuid);
+        dialogModificationBinding.number.setText(String.valueOf(recipient.getNumber()));
+        dialogModificationBinding.content.setText(recipient.getContent());
+        dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN, true));
 
         builder
                 .setView(view)
                 .setPositiveButton("Modifier",
                         (dialog, id) -> HelperDb.db.insertOrUpdateRecipient(
                             Integer.parseInt(dialogModificationBinding.number.getText().toString()),
-                            dialogModificationBinding.uuid.getText().toString(),
+                                uuid,
                             dialogModificationBinding.content.getText().toString()))
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
                 .create()
