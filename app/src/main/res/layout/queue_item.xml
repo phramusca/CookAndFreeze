@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:id="@+id/layout_item">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:contentDescription="cover description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:paddingTop="5dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.athkalia.emphasis.EmphasisTextView
+            android:text="Ligne 1"
+            android:id="@+id/item_line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:textColor="@color/design_default_color_secondary"
+            tools:ignore="HardcodedText"
+            android:textSize="16sp">
+        </com.athkalia.emphasis.EmphasisTextView>
+
+        <com.athkalia.emphasis.EmphasisTextView
+            android:text="Ligne 2"
+            android:id="@+id/item_line2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:textColor="@color/design_default_color_secondary"
+            tools:ignore="HardcodedText"
+            android:textSize="14sp">
+        </com.athkalia.emphasis.EmphasisTextView>
+
+        <TextView
+            android:text="Ligne 3"
+            android:id="@+id/item_line3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            tools:ignore="HardcodedText"
+            android:textSize="14sp">
+        </TextView>
+
+        <TextView
+            android:text="Ligne 4"
+            android:id="@+id/item_line4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            tools:ignore="HardcodedText"
+            android:textSize="12sp">
+        </TextView>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,150 @@
+package org.phramusca.cookandfreeze.ui.core;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.athkalia.emphasis.EmphasisTextView;
+
+import org.phramusca.cookandfreeze.R;
+import org.phramusca.cookandfreeze.models.Recipient;
+import org.phramusca.cookandfreeze.ui.recipient.IListenerRecipientAdapter;
+
+import java.util.ArrayList;
+
+//http://www.devexchanges.info/2017/02/android-recyclerview-dynamically-load.html
+public class AdapterLoad extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    final int VIEW_TYPE_ITEM = 0;
+    final int VIEW_TYPE_LOADING = 1;
+    private final Context mContext;
+    private boolean isLoading;
+    private boolean isLoadingTop;
+    private final int visibleThreshold = 3;
+    private int lastVisibleItem, firstVisibleItem, totalItemCount;
+
+    AdapterLoad(Context context, RecyclerView recyclerView) {
+        mContext = context;
+
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+                if (!isLoading) {
+                    if (totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                        isLoading = true;
+                        if (onLoadListener != null) {
+                            onLoadListener.onLoadMore();
+                        }
+                    }
+                }
+
+                if (!isLoadingTop) {
+                    // TODO !!! Load on top: on page init, add a load item on top
+                    // and select next one (so that loader at pos 0 is hidden)
+                    // So there is no need  to scroll down then scroll up to search up
+                    // as no more need to check dY
+                    if (firstVisibleItem <= visibleThreshold && dy < 0) {
+                        isLoadingTop = true;
+                        if (onLoadListener != null) {
+                            onLoadListener.onLoadTop();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private IListenerOnLoad onLoadListener;
+
+    public void setOnLoadListener(IListenerOnLoad mOnLoadListener) {
+        this.onLoadListener = mOnLoadListener;
+    }
+
+    public void setLoaded() {
+        isLoading = false;
+    }
+
+    public void setLoadedTop() {
+        isLoadingTop = false;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.queue_item_album, parent, false);
+            return new UserViewHolder(view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.queue_item_loading, parent, false);
+            return new LoadingViewHolder(view);
+        }
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+    // "Loading item" ViewHolder
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        ProgressBar progressBar;
+
+        LoadingViewHolder(View view) {
+            super(view);
+            progressBar = view.findViewById(R.id.progressBar1);
+        }
+    }
+
+    // "Normal item" ViewHolder
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
+        public EmphasisTextView item_line1;
+        public EmphasisTextView item_line2;
+        public TextView item_line3;
+        public TextView item_line4;
+        public ImageView imageViewCover;
+        public LinearLayout layout_item;
+
+        public UserViewHolder(View view) {
+            super(view);
+            layout_item = view.findViewById(R.id.layout_item);
+            item_line1 = view.findViewById(R.id.item_line1);
+            item_line2 = view.findViewById(R.id.item_line2);
+            item_line3 = view.findViewById(R.id.item_line3);
+            item_line4 = view.findViewById(R.id.item_line4);
+            imageViewCover = view.findViewById(R.id.imageView);
+        }
+    }
+
+    private final ArrayList<IListenerRecipientAdapter> mListListener = new ArrayList<>();
+
+    public void addListener(IListenerRecipientAdapter aListener) {
+        mListListener.add(aListener);
+    }
+
+    void sendListener(Recipient item, int position) {
+        for (int i = mListListener.size() - 1; i >= 0; i--) {
+            mListListener.get(i).onClick(item, position);
+        }
+    }
+}
