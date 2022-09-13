@@ -11,7 +11,6 @@ import android.widget.Filterable;
 import org.jetbrains.annotations.NotNull;
 import org.phramusca.cookandfreeze.R;
 import org.phramusca.cookandfreeze.database.HelperDb;
-import org.phramusca.cookandfreeze.helpers.HelperDateTime;
 import org.phramusca.cookandfreeze.ui.core.AdapterCursor;
 import org.phramusca.cookandfreeze.ui.core.AdapterLoad;
 
@@ -30,7 +29,7 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
     @NotNull
     public AdapterLoad.UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.parent = parent;
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.queue_item_album, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.queue_item_recipient, parent, false);
         return new AdapterLoad.UserViewHolder(itemView);
     }
 
@@ -70,9 +69,9 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
         userViewHolder.itemView.setOnClickListener(view -> sendListener(adapterListItemRecipient));
     }
 
-    private final ArrayList<IListenerAdapterAlbum> mListListener = new ArrayList<>();
+    private final ArrayList<IListenerAdapterRecipient> mListListener = new ArrayList<>();
 
-    public void addListener(IListenerAdapterAlbum aListener) {
+    public void addListener(IListenerAdapterRecipient aListener) {
         mListListener.add(aListener);
     }
 
@@ -95,8 +94,7 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
         protected FilterResults performFiltering(CharSequence constraint) {
             Cursor cursor;
             if (constraint != null && constraint.length() != 0) {
-                //TODO: Use constraint.toString().toLowerCase().trim()
-                 cursor = HelperDb.db.getRecipients();
+                 cursor = HelperDb.db.getRecipients(constraint.toString().toLowerCase().trim());
             } else {
                 cursor = oriCursor;
             }

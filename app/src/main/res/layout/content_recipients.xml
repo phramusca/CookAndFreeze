@@ -13,27 +13,20 @@
         android:alpha="0.9">
 
         <Button
-            android:id="@+id/button_exit_albums"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="title TODO"
+            android:id="@+id/button_scan"
             android:layout_row="0"
             android:layout_column="1"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"/>
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_qr_code_scanner_24"/>
 
         <Button
             android:id="@+id/button_search"
             android:layout_row="0"
             android:layout_column="2"
             android:layout_width="45dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_outline_search_24"/>
     </GridLayout>
 
     <EditText

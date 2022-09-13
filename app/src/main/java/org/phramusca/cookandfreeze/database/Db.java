@@ -71,10 +71,10 @@ public class Db {
         return recipient;
     }
 
-    public Cursor getRecipients() {
+    public Cursor getRecipients(String search) {
         try {
             return db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_NUMBER, COL_UUID, COL_DATE},
-                    null, null, null, null, COL_NUMBER);
+                    COL_CONTENT + " LIKE ?", new String[]{"%"+search+"%"}, null, null, COL_NUMBER);
         } catch (SQLiteException | IllegalStateException ex) { //NON-NLS
             Log.e(TAG, "getRecipients()", ex); //NON-NLS
         }

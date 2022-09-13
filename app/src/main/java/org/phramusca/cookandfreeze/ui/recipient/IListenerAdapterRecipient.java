@@ -1,5 +1,5 @@
 package org.phramusca.cookandfreeze.ui.recipient;
 
-public interface IListenerAdapterAlbum {
+public interface IListenerAdapterRecipient {
     void onClick(AdapterListItemRecipient adapterListItemAlbum);
 }

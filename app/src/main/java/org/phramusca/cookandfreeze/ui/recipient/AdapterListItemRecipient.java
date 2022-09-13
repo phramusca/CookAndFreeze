@@ -1,7 +1,6 @@
 package org.phramusca.cookandfreeze.ui.recipient;
 
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_CONTENT;
-import static org.phramusca.cookandfreeze.database.DbSchema.COL_DATE;
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_NUMBER;
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_UUID;
 
@@ -14,10 +13,10 @@ import org.phramusca.cookandfreeze.helpers.HelperDateTime;
 import java.util.Date;
 
 public class AdapterListItemRecipient {
-    private String uuid = "";
-    private int number = -2;
-    private String content = "";
-    private String date = "";
+    private final String uuid;
+    private final int number;
+    private final String content;
+    private final String date;
 
     public AdapterListItemRecipient(String uuid, int number, String content, String date) {
         this.uuid = uuid;

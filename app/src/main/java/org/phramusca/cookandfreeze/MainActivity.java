@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -24,15 +23,11 @@ import com.google.zxing.integration.android.IntentResult;
 import org.phramusca.cookandfreeze.database.HelperDb;
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
 import org.phramusca.cookandfreeze.databinding.DialogModificationBinding;
-import org.phramusca.cookandfreeze.models.Recipient;
 import org.phramusca.cookandfreeze.helpers.HelperDateTime;
-import org.phramusca.cookandfreeze.ui.main.CaptureActivityPortrait;
+import org.phramusca.cookandfreeze.models.Recipient;
 import org.phramusca.cookandfreeze.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
-    //TODO: Use ScanContract instead: https://github.com/journeyapps/zxing-android-embedded
-    private IntentIntegrator qrScan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,59 +44,11 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
-
-        FloatingActionButton fab = binding.fab;
-
-        qrScan = new IntentIntegrator(this);
-        qrScan.setPrompt("Scan a barcode on a recipient.");
-        //qrScan.setCameraId(0);  // Use a specific camera of the device
-        qrScan.setOrientationLocked(true);
-        qrScan.setBeepEnabled(false);
-        qrScan.setCaptureActivity(CaptureActivityPortrait.class);
-
-        fab.setOnClickListener(view -> {
-            qrScan.initiateScan();
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            //        .setAction("Action", null).show();
-        });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
-            } else {
-                String content = result.getContents();
-                promptRecipient(content);
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 
-    @SuppressLint("Range")
-    private void promptRecipient(String uuid) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
-        DialogModificationBinding dialogModificationBinding = DialogModificationBinding.bind(view);
 
-        Recipient recipient = HelperDb.db.getRecipient(uuid);
-        dialogModificationBinding.number.setText(String.valueOf(recipient.getNumber()));
-        dialogModificationBinding.content.setText(recipient.getContent());
-        dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN, true));
 
-        builder
-                .setView(view)
-                .setPositiveButton("Modifier",
-                        (dialog, id) -> HelperDb.db.insertOrUpdateRecipient(
-                            Integer.parseInt(dialogModificationBinding.number.getText().toString()),
-                                uuid,
-                            dialogModificationBinding.content.getText().toString()))
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
-                .create()
-                .show();
-    }
 
     private final String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
