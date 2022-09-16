@@ -6,20 +6,20 @@ import java.util.Objects;
 public class Recipient {
 
     private final String uuid;
-    private int number = -1; //FIXME: Get it from QR code
+    private String title = "";
     private String content = "";
-    private Date date = new Date(0);
+    private Date date = new Date(0); //FIXME: Change it only when requested
 
     public Recipient(String uuid) {
         this.uuid = uuid;
     }
 
-    public int getNumber() {
-        return number;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
@@ -36,6 +36,10 @@ public class Recipient {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     @Override

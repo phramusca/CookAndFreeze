@@ -11,6 +11,7 @@ import android.widget.Filterable;
 import org.jetbrains.annotations.NotNull;
 import org.phramusca.cookandfreeze.R;
 import org.phramusca.cookandfreeze.database.HelperDb;
+import org.phramusca.cookandfreeze.helpers.HelperDateTime;
 import org.phramusca.cookandfreeze.ui.core.AdapterCursor;
 import org.phramusca.cookandfreeze.ui.core.AdapterLoad;
 
@@ -47,8 +48,7 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
     public void onBindViewHolder(AdapterLoad.UserViewHolder userViewHolder, Cursor cursor, int position) {
         AdapterListItemRecipient adapterListItemRecipient = AdapterListItemRecipient.fromCursor(cursor);
 
-        userViewHolder.item_line1.setText(String.format(
-                Locale.getDefault(), "%03d", adapterListItemRecipient.getNumber()));
+        userViewHolder.item_line1.setText(adapterListItemRecipient.getTitle());
 
         userViewHolder.item_line2.setText(adapterListItemRecipient.getContent());
         if(!searchQuery.isEmpty()) {
@@ -58,7 +58,9 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
             userViewHolder.item_line2.highlight();
         }
 
-        userViewHolder.item_line3.setText(adapterListItemRecipient.getDate());
+        String dateDisplay = HelperDateTime.formatUTC(adapterListItemRecipient.getDate(),
+                HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true);
+        userViewHolder.item_line3.setText(dateDisplay);
 
         userViewHolder.itemView.setOnClickListener(view -> sendListener(adapterListItemRecipient));
     }

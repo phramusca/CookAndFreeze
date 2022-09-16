@@ -2,7 +2,7 @@ package org.phramusca.cookandfreeze.database;
 
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_CONTENT;
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_DATE;
-import static org.phramusca.cookandfreeze.database.DbSchema.COL_NUMBER;
+import static org.phramusca.cookandfreeze.database.DbSchema.COL_TITLE;
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_UUID;
 import static org.phramusca.cookandfreeze.database.DbSchema.TABLE_RECIPIENTS;
 
@@ -36,12 +36,12 @@ public class Db {
         db.close();
     }
 
-    public synchronized void insertOrUpdateRecipient(int number, String uuid, String content) {
-        String log = "insertOrUpdateRecipient(" + number + ", " + uuid + ", " + content + ")"; //NON-NLS
+    public synchronized void insertOrUpdateRecipient(String title, String uuid, String content) {
+        String log = "insertOrUpdateRecipient(" + title + ", " + uuid + ", " + content + ")"; //NON-NLS
         try {
             Log.d(TAG, log);
             ContentValues values = new ContentValues();
-            values.put(COL_NUMBER, number);
+            values.put(COL_TITLE, title);
             values.put(COL_UUID, uuid);
             values.put(COL_CONTENT, content);
             values.put(COL_DATE, HelperDateTime.getCurrentUtcSql());
@@ -56,10 +56,10 @@ public class Db {
     public Recipient getRecipient(String uuid) {
         Recipient recipient = new Recipient(uuid);
         try {
-            Cursor cursor = db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_NUMBER, COL_UUID, COL_DATE},
-                    COL_UUID + "=?", new String[]{uuid}, null, null, COL_NUMBER);
+            Cursor cursor = db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_TITLE, COL_UUID, COL_DATE},
+                    COL_UUID + "=?", new String[]{uuid}, null, null, COL_TITLE);
             if(cursor!=null && cursor.moveToFirst()) {
-                recipient.setNumber(cursor.getInt(cursor.getColumnIndex(COL_NUMBER)));
+                recipient.setTitle(cursor.getString(cursor.getColumnIndex(COL_TITLE)));
                 recipient.setContent(cursor.getString(cursor.getColumnIndex(DbSchema.COL_CONTENT)));
                 Date date = HelperDateTime.parseSqlUtc(
                         cursor.getString(cursor.getColumnIndex(DbSchema.COL_DATE)));
@@ -73,12 +73,11 @@ public class Db {
 
     public Cursor getRecipients(String search) {
         try {
-            return db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_NUMBER, COL_UUID, COL_DATE},
-                    COL_CONTENT + " LIKE ?", new String[]{"%"+search+"%"}, null, null, COL_NUMBER);
+            return db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_TITLE, COL_UUID, COL_DATE},
+                    COL_CONTENT + " LIKE ?", new String[]{"%"+search+"%"}, null, null, COL_TITLE);
         } catch (SQLiteException | IllegalStateException ex) { //NON-NLS
             Log.e(TAG, "getRecipients()", ex); //NON-NLS
         }
         return null;
     }
-
 }

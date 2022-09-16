@@ -9,11 +9,11 @@ import org.phramusca.cookandfreeze.R;
 
 public class DbSchema extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     public static final String TABLE_RECIPIENTS = "recipients"; //NON-NLS
 
-    public static final String COL_NUMBER = "number";
+    public static final String COL_TITLE = "title";
     public static final String COL_UUID = "uuid";
     public static final String COL_CONTENT = "content";
     public static final String COL_DATE = "date";
@@ -21,7 +21,7 @@ public class DbSchema extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_RECIPIENTS =
             "CREATE TABLE " + TABLE_RECIPIENTS + " (" //NON-NLS //NON-NLS
             + COL_UUID + " TEXT PRIMARY KEY, "
-            + COL_NUMBER + " INTEGER NOT NULL, " //NON-NLS
+            + COL_TITLE + " TEXT NOT NULL, " //NON-NLS
             + COL_DATE + " TEXT NOT NULL, " //NON-NLS
             + COL_CONTENT + " TEXT NOT NULL); "; //NON-NLS
 

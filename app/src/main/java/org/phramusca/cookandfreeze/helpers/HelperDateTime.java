@@ -25,7 +25,7 @@ public class HelperDateTime {
         /**
          * Human dateTime format ("dd/MM/yyyy HH:mm:ss")
          */
-        HUMAN_SIMPLE("dd/MM/yyyy (HH:mm)"), //NON-NLS
+        HUMAN_SIMPLE("dd/MM/yyyy HH:mm"), //NON-NLS
         /**
          * File dateTime format ("yyyy-MM-dd--HH-mm-ss")
          */

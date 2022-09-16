@@ -1,7 +1,7 @@
 package org.phramusca.cookandfreeze.ui.recipient;
 
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_CONTENT;
-import static org.phramusca.cookandfreeze.database.DbSchema.COL_NUMBER;
+import static org.phramusca.cookandfreeze.database.DbSchema.COL_TITLE;
 import static org.phramusca.cookandfreeze.database.DbSchema.COL_UUID;
 
 import android.annotation.SuppressLint;
@@ -9,18 +9,19 @@ import android.database.Cursor;
 
 import org.phramusca.cookandfreeze.database.DbSchema;
 import org.phramusca.cookandfreeze.helpers.HelperDateTime;
+import org.phramusca.cookandfreeze.models.Recipient;
 
 import java.util.Date;
 
 public class AdapterListItemRecipient {
     private final String uuid;
-    private final int number;
+    private final String title;
     private final String content;
-    private final String date; //FIXME: Only change when requested
+    private final Date date;
 
-    public AdapterListItemRecipient(String uuid, int number, String content, String date) {
+    public AdapterListItemRecipient(String uuid, String title, String content, Date date) {
         this.uuid = uuid;
-        this.number = number;
+        this.title = title;
         this.content = content;
         this.date = date;
     }
@@ -29,28 +30,34 @@ public class AdapterListItemRecipient {
     public static AdapterListItemRecipient fromCursor(Cursor c) {
         Date date = HelperDateTime.parseSqlUtc(
                 c.getString(c.getColumnIndex(DbSchema.COL_DATE)));
-        String dateDisplay = HelperDateTime.formatUTC(date,
-                HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true);
         return new AdapterListItemRecipient(
                 c.getString(c.getColumnIndex(COL_UUID)),
-                c.getInt(c.getColumnIndex(COL_NUMBER)),
+                c.getString(c.getColumnIndex(COL_TITLE)),
                 c.getString(c.getColumnIndex(COL_CONTENT)),
-                dateDisplay);
+                date);
     }
 
     public String getUuid() {
         return uuid;
     }
 
-    public int getNumber() {
-        return number;
+    public String getTitle() {
+        return title;
     }
 
     public String getContent() {
         return content;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
+    }
+
+    public Recipient toRecipient() {
+        Recipient recipient = new Recipient(getUuid());
+        recipient.setDate(date);
+        recipient.setContent(getContent());
+        recipient.setTitle(getTitle());
+        return recipient;
     }
 }

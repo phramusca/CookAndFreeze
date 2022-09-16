@@ -1,6 +1,6 @@
 # CookAndFreeze
 
-This Android application serves at managing your recipients stored in your freezer (or elsewhere).
+With `CookAndFreeze` for Android, easily manage recipients (content and frozen date) stored in your freezer (or elsewhere).
 
 ## Creating self-adhesive labels
 
