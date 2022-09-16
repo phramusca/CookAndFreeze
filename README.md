@@ -4,19 +4,26 @@ With `CookAndFreeze` for Android, easily manage recipients (content and frozen d
 
 ## Creating self-adhesive labels
 
-- Create CSV files with your labels info:
-  - Ex: If you have 6 labels per page, create one file for your first 6 labels, one file for the next 6, etc ...
+- Create CSV files with your labels info using C# application from `labels/labeller` folder:
+
+```powershell
+dotnet run labels/labeller/Program.cs --NumberOfLabelsPerPage 7 --FirstLabelNumber 2
+```
+
+Example of a generated file with `--NumberOfLabelsPerPage 5 --FirstLabelNumber 2` arguments:
 
 ```csv
 title,content
-001,"cookandfreeze://{'version':1,'title':'001','uuid':'f1cb5ea9-7bee-4980-a230-8dfc1d416e6b'}"
-002,"cookandfreeze://{'version':1,'title':'002','uuid':'ecc06de0-3d45-4481-891e-af20bc49f4bf'}"
-003,"cookandfreeze://{'version':1,'title':'003','uuid':'fb56fb22-3cc5-4e3f-8460-1a14c26eb884'}"
-004,"cookandfreeze://{'version':1,'title':'004','uuid':'09d95160-28cc-417b-8b63-f9db1a245a04'}"
-005,"cookandfreeze://{'version':1,'title':'005','uuid':'c4fea8f2-822a-46ee-8f59-4573fc6a5c90'}"
-006,"cookandfreeze://{'version':1,'title':'006','uuid':'13a5502d-32c4-4210-b0b6-94ace657c63e'}"
+002,"cookandfreeze://{'version':1,'title':'002','uuid':'a5834fc0-ab30-476a-871c-54a6bb9b769d'}"
+003,"cookandfreeze://{'version':1,'title':'003','uuid':'afd19355-eec5-4616-9876-ce4c6676c3dc'}"
+004,"cookandfreeze://{'version':1,'title':'004','uuid':'75677a16-43c9-4573-bc59-8f064209302d'}"
+005,"cookandfreeze://{'version':1,'title':'005','uuid':'1a20298f-fce1-4680-b909-c570d48cd08f'}"
+006,"cookandfreeze://{'version':1,'title':'006','uuid':'34395a27-c253-4f00-9d2f-2afcef51f99a'}"
+
 ```
-  
+
+Of course, you can create those manually (you can get generate uuids with [https://www.guidgenerator.com/](https://www.guidgenerator.com/)).
+
 - Use GLabels to generate and print your labels:
   - Open a glabel project:
     - If you are using "24 Etiquettes Congélation" Ref. 316656 from Casino, you can use [labels/CookAndFreeze.glabels](labels/CookAndFreeze.glabels) file
