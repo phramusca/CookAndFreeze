@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.JsonToken;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,10 +69,12 @@ public class FragmentRecipient extends Fragment {
                     }
                     QRCodeV1 qrCodeV1 = gson.fromJson(content, QRCodeV1.class);
                     Recipient recipient = HelperDb.db.getRecipient(qrCodeV1.uuid);
-                    if (!recipient.getDate().after(new Date(0))) {
-                        recipient = qrCodeV1.toRecipient();
+                    if (recipient.getDate().after(new Date(0))) {
+                        promptRecipient(recipient);
+                    } else {
+                        promptRecipient(qrCodeV1.toRecipient());
                     }
-                    promptRecipient(recipient);
+
                 } catch (JsonSyntaxException ex) {
                     Toast.makeText(mContext, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -83,7 +84,7 @@ public class FragmentRecipient extends Fragment {
         mContext = context;
     }
 
-    @SuppressLint("Range")
+    @SuppressLint({"Range", "NotifyDataSetChanged"})
     private void promptRecipient(Recipient recipient) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
@@ -96,10 +97,14 @@ public class FragmentRecipient extends Fragment {
         builder
                 .setView(view)
                 .setPositiveButton("Modifier",
-                        (dialog, id) -> HelperDb.db.insertOrUpdateRecipient(
-                                dialogModificationBinding.title.getText().toString(),
-                                recipient.getUuid(),
-                                dialogModificationBinding.content.getText().toString()))
+                        (dialog, id) -> {
+                            HelperDb.db.insertOrUpdateRecipient(
+                                    dialogModificationBinding.title.getText().toString(),
+                                    recipient.getUuid(),
+                                    dialogModificationBinding.content.getText().toString());
+                            Cursor cursor = HelperDb.db.getRecipients("");
+                            adapterCursorRecipient.changeCursor(cursor);
+                        })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
                 .create()
                 .show();
@@ -109,6 +114,8 @@ public class FragmentRecipient extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    private AdapterCursorRecipient adapterCursorRecipient;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -121,7 +128,7 @@ public class FragmentRecipient extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         Cursor cursor = HelperDb.db.getRecipients("");
-        AdapterCursorRecipient adapterCursorRecipient = new AdapterCursorRecipient(mContext, cursor);
+        adapterCursorRecipient = new AdapterCursorRecipient(mContext, cursor);
         recyclerView.setAdapter(adapterCursorRecipient);
         adapterCursorRecipient.addListener(
                 adapterListItemRecipient -> {
