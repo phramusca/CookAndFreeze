@@ -36,7 +36,6 @@ public class FragmentRecipient extends Fragment {
     private String searchQuery="";
     private Context mContext;
 
-    // Register the launcher and result handler
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
@@ -92,14 +91,8 @@ public class FragmentRecipient extends Fragment {
         Cursor cursor = HelperDb.db.getRecipients("");
         AdapterCursorRecipient adapterCursorRecipient = new AdapterCursorRecipient(mContext, cursor);
         recyclerView.setAdapter(adapterCursorRecipient);
-        //TODO: prompt modification
-//        adapterCursorAlbum.addListener(adapterListItemAlbum -> {
-////            //Open album tracks layout
-////            Intent intent = new Intent(mContext, ActivityAlbumTracks.class);
-////            intent.putExtra("idPath", adapterListItemAlbum.getIdPath()); //NON-NLS
-////            intent.putExtra("searchQuery", searchQuery);
-////            startActivityForResult(intent, ALBUM_TRACK_REQUEST_CODE);
-//        });
+        adapterCursorRecipient.addListener(
+                adapterListItemRecipient -> promptRecipient(adapterListItemRecipient.getUuid()));
 
         EditText queryText = view.findViewById(R.id.filter_album);
         queryText.addTextChangedListener(new TextWatcher() {
