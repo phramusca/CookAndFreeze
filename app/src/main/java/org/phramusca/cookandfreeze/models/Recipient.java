@@ -10,7 +10,7 @@ public class Recipient implements Cloneable{
     private final String uuid;
     private String title = "";
     private String content = "";
-    private Date date = new Date(0); //FIXME: Change it only when requested
+    private Date date = new Date(0);
 
     public Recipient(String uuid) {
         this.uuid = uuid;

@@ -102,9 +102,7 @@ public class FragmentRecipient extends Fragment {
         dialogModificationBinding.content.setText(recipient.getContent());
         dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
 
-        dialogModificationBinding.buttonClear.setOnClickListener(v -> {
-            dialogModificationBinding.content.setText("");
-        });
+        dialogModificationBinding.buttonClear.setOnClickListener(v -> dialogModificationBinding.content.setText(""));
 
         dialogModificationBinding.buttonDateNow.setOnClickListener(v -> {
             recipient.setDate(new Date());
@@ -123,7 +121,7 @@ public class FragmentRecipient extends Fragment {
 
         builder
                 .setView(view)
-                .setPositiveButton("Modifier",
+                .setPositiveButton("Modify",
                         (dialog, id) -> {
                             HelperDb.db.insertOrUpdateRecipient(
                                     dialogModificationBinding.title.getText().toString(),
@@ -159,9 +157,7 @@ public class FragmentRecipient extends Fragment {
         adapterCursorRecipient = new AdapterCursorRecipient(mContext, cursor);
         recyclerView.setAdapter(adapterCursorRecipient);
         adapterCursorRecipient.addListener(
-                adapterListItemRecipient -> {
-                    promptRecipient(adapterListItemRecipient.toRecipient());
-                });
+                adapterListItemRecipient -> promptRecipient(adapterListItemRecipient.toRecipient()));
 
         EditText queryText = view.findViewById(R.id.filter_album);
         queryText.addTextChangedListener(new TextWatcher() {
