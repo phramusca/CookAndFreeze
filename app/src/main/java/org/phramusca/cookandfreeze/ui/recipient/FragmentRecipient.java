@@ -59,7 +59,7 @@ public class FragmentRecipient extends Fragment {
         Recipient recipient = HelperDb.db.getRecipient(uuid);
         dialogModificationBinding.number.setText(String.valueOf(recipient.getNumber()));
         dialogModificationBinding.content.setText(recipient.getContent());
-        dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN, true));
+        dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
 
         builder
                 .setView(view)

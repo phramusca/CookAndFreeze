@@ -30,7 +30,7 @@ public class AdapterListItemRecipient {
         Date date = HelperDateTime.parseSqlUtc(
                 c.getString(c.getColumnIndex(DbSchema.COL_DATE)));
         String dateDisplay = HelperDateTime.formatUTC(date,
-                HelperDateTime.DateTimeFormat.HUMAN, true);
+                HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true);
         return new AdapterListItemRecipient(
                 c.getString(c.getColumnIndex(COL_UUID)),
                 c.getInt(c.getColumnIndex(COL_NUMBER)),

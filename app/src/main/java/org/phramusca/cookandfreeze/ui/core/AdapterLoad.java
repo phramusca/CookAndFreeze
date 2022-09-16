@@ -121,7 +121,6 @@ public class AdapterLoad extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public EmphasisTextView item_line1;
         public EmphasisTextView item_line2;
         public TextView item_line3;
-        public TextView item_line4;
         public ImageView imageViewCover;
         public LinearLayout layout_item;
 
@@ -131,7 +130,6 @@ public class AdapterLoad extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             item_line1 = view.findViewById(R.id.item_line1);
             item_line2 = view.findViewById(R.id.item_line2);
             item_line3 = view.findViewById(R.id.item_line3);
-            item_line4 = view.findViewById(R.id.item_line4);
             imageViewCover = view.findViewById(R.id.imageView);
         }
     }

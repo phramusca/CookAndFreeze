@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:paddingTop="5dp"/>
+        android:paddingTop="5dp"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,31 +23,30 @@
         android:orientation="vertical">
 
         <com.athkalia.emphasis.EmphasisTextView
-            android:text="Ligne 1"
+            android:text="Line 1"
             android:id="@+id/item_line1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="2dp"
             android:paddingEnd="2dp"
-            android:textColor="@color/design_default_color_secondary"
-            tools:ignore="HardcodedText"
-            android:textSize="16sp">
+            android:textStyle="bold"
+            android:textSize="14sp"
+            tools:ignore="HardcodedText">
         </com.athkalia.emphasis.EmphasisTextView>
 
         <com.athkalia.emphasis.EmphasisTextView
-            android:text="Ligne 2"
+            android:text="Line 2"
             android:id="@+id/item_line2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="2dp"
             android:paddingEnd="2dp"
-            android:textColor="@color/design_default_color_secondary"
             tools:ignore="HardcodedText"
             android:textSize="14sp">
         </com.athkalia.emphasis.EmphasisTextView>
 
         <TextView
-            android:text="Ligne 3"
+            android:text="Line 3"
             android:id="@+id/item_line3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,17 +54,6 @@
             android:paddingEnd="2dp"
             tools:ignore="HardcodedText"
             android:textSize="14sp">
-        </TextView>
-
-        <TextView
-            android:text="Ligne 4"
-            android:id="@+id/item_line4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            tools:ignore="HardcodedText"
-            android:textSize="12sp">
         </TextView>
     </LinearLayout>
 </LinearLayout>

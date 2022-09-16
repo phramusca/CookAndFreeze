@@ -15,6 +15,7 @@ import org.phramusca.cookandfreeze.ui.core.AdapterCursor;
 import org.phramusca.cookandfreeze.ui.core.AdapterLoad;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHolder> implements Filterable {
 
@@ -46,13 +47,8 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
     public void onBindViewHolder(AdapterLoad.UserViewHolder userViewHolder, Cursor cursor, int position) {
         AdapterListItemRecipient adapterListItemRecipient = AdapterListItemRecipient.fromCursor(cursor);
 
-        userViewHolder.item_line1.setText(String.valueOf(adapterListItemRecipient.getNumber()));
-        if(!searchQuery.isEmpty()) {
-            userViewHolder.item_line1.setTextToHighlight(searchQuery);
-            userViewHolder.item_line1.setTextHighlightColor(R.color.teal_700);
-            userViewHolder.item_line1.setCaseInsensitive(true);
-            userViewHolder.item_line1.highlight();
-        }
+        userViewHolder.item_line1.setText(String.format(
+                Locale.getDefault(), "%03d", adapterListItemRecipient.getNumber()));
 
         userViewHolder.item_line2.setText(adapterListItemRecipient.getContent());
         if(!searchQuery.isEmpty()) {
@@ -63,8 +59,6 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
         }
 
         userViewHolder.item_line3.setText(adapterListItemRecipient.getDate());
-
-        userViewHolder.item_line4.setText(adapterListItemRecipient.getUuid());
 
         userViewHolder.itemView.setOnClickListener(view -> sendListener(adapterListItemRecipient));
     }
