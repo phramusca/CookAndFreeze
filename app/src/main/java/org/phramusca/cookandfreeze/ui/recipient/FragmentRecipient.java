@@ -36,13 +36,14 @@ public class FragmentRecipient extends Fragment {
     private String searchQuery="";
     private Context mContext;
 
+    //FIXME: QR code to open application when read from third party barcode scanner
+    //FIXME: QR code with json payload (version, number, guid, author, ...)
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
                     Toast.makeText(mContext, "Cancelled", Toast.LENGTH_LONG).show();
                 } else {
-                    String content = result.getContents();
-                    promptRecipient(content);
+                    promptRecipient(result.getContents());
                 }
             });
 

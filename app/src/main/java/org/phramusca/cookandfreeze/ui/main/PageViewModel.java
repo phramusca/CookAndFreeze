@@ -9,7 +9,7 @@ public class PageViewModel extends ViewModel {
 
     private final MutableLiveData<Integer> mIndex = new MutableLiveData<>();
     private final LiveData<String> mText =
-            Transformations.map(mIndex, input -> "Hello world from section: " + input);
+            Transformations.map(mIndex, input -> "Tab #" + input + " is not yet available");
 
     public void setIndex(int index) {
         mIndex.setValue(index);

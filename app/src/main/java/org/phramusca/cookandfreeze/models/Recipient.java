@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Recipient {
 
     private final String uuid;
-    private int number = -1;
+    private int number = -1; //FIXME: Get it from QR code
     private String content = "";
     private Date date = new Date(0);
 
