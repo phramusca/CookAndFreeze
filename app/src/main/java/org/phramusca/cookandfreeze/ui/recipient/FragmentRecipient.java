@@ -86,6 +86,14 @@ public class FragmentRecipient extends Fragment {
 
     @SuppressLint({"Range", "NotifyDataSetChanged"})
     private void promptRecipient(Recipient recipient) {
+        Recipient originalRecipient = new Recipient(recipient.getUuid());
+        try {
+            originalRecipient = (Recipient) recipient.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        Recipient finalOriginalRecipient = originalRecipient;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
         DialogModificationBinding dialogModificationBinding = DialogModificationBinding.bind(view);
@@ -94,6 +102,25 @@ public class FragmentRecipient extends Fragment {
         dialogModificationBinding.content.setText(recipient.getContent());
         dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
 
+        dialogModificationBinding.buttonClear.setOnClickListener(v -> {
+            dialogModificationBinding.content.setText("");
+        });
+
+        dialogModificationBinding.buttonDateNow.setOnClickListener(v -> {
+            recipient.setDate(new Date());
+            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
+        });
+
+        dialogModificationBinding.buttonReset.setOnClickListener(v -> {
+            recipient.setDate(finalOriginalRecipient.getDate());
+            recipient.setContent(finalOriginalRecipient.getContent());
+            recipient.setTitle(finalOriginalRecipient.getTitle());
+
+            dialogModificationBinding.title.setText(recipient.getTitle());
+            dialogModificationBinding.content.setText(recipient.getContent());
+            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
+        });
+
         builder
                 .setView(view)
                 .setPositiveButton("Modifier",
@@ -101,7 +128,8 @@ public class FragmentRecipient extends Fragment {
                             HelperDb.db.insertOrUpdateRecipient(
                                     dialogModificationBinding.title.getText().toString(),
                                     recipient.getUuid(),
-                                    dialogModificationBinding.content.getText().toString());
+                                    dialogModificationBinding.content.getText().toString(),
+                                    recipient.getDate());
                             Cursor cursor = HelperDb.db.getRecipients("");
                             adapterCursorRecipient.changeCursor(cursor);
                         })

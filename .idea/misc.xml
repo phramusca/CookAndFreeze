@@ -12,7 +12,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.121875" />
         <entry key="app/src/main/res/layout/content_albums.xml" value="0.190625" />
         <entry key="app/src/main/res/layout/content_recipients.xml" value="0.190625" />
-        <entry key="app/src/main/res/layout/dialog_modification.xml" value="0.2604166666666667" />
+        <entry key="app/src/main/res/layout/dialog_modification.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_signin.xml" value="0.14635416666666667" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.18333333333333332" />

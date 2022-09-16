@@ -36,7 +36,7 @@ public class Db {
         db.close();
     }
 
-    public synchronized void insertOrUpdateRecipient(String title, String uuid, String content) {
+    public synchronized void insertOrUpdateRecipient(String title, String uuid, String content, Date date) {
         String log = "insertOrUpdateRecipient(" + title + ", " + uuid + ", " + content + ")"; //NON-NLS
         try {
             Log.d(TAG, log);
@@ -44,7 +44,7 @@ public class Db {
             values.put(COL_TITLE, title);
             values.put(COL_UUID, uuid);
             values.put(COL_CONTENT, content);
-            values.put(COL_DATE, HelperDateTime.getCurrentUtcSql());
+            values.put(COL_DATE, HelperDateTime.formatUTCtoSqlUTC(date));
             db.insertWithOnConflict(
                     TABLE_RECIPIENTS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         } catch (SQLiteException | IllegalStateException ex) {

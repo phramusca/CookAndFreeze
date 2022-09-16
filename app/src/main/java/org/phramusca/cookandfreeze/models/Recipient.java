@@ -1,9 +1,11 @@
 package org.phramusca.cookandfreeze.models;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 import java.util.Objects;
 
-public class Recipient {
+public class Recipient implements Cloneable{
 
     private final String uuid;
     private String title = "";
@@ -53,5 +55,11 @@ public class Recipient {
     @Override
     public int hashCode() {
         return Objects.hash(uuid);
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
