@@ -38,7 +38,7 @@ public class AdapterLoad extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 totalItemCount = linearLayoutManager.getItemCount();
                 firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();

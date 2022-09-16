@@ -1,30 +1,20 @@
 package org.phramusca.cookandfreeze;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import org.phramusca.cookandfreeze.database.HelperDb;
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
-import org.phramusca.cookandfreeze.databinding.DialogModificationBinding;
-import org.phramusca.cookandfreeze.helpers.HelperDateTime;
-import org.phramusca.cookandfreeze.models.Recipient;
 import org.phramusca.cookandfreeze.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,10 +35,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
     }
-
-
-
-
 
     private final String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,

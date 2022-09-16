@@ -16,7 +16,7 @@ public class AdapterListItemRecipient {
     private final String uuid;
     private final int number;
     private final String content;
-    private final String date;
+    private final String date; //TODO: Only change when requested
 
     public AdapterListItemRecipient(String uuid, int number, String content, String date) {
         this.uuid = uuid;

@@ -33,7 +33,7 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
         return new AdapterLoad.UserViewHolder(itemView);
     }
 
-    public AdapterListItemRecipient getAlbumListItem(int position) {
+    public AdapterListItemRecipient getRecipientListItem(int position) {
         AdapterListItemRecipient adapterListItemRecipient = null;
         Cursor cursor = getCursor();
         if (cursor.moveToPosition(position)) {
