@@ -32,7 +32,7 @@ import org.phramusca.cookandfreeze.databinding.DialogModificationBinding;
 import org.phramusca.cookandfreeze.helpers.HelperDateTime;
 import org.phramusca.cookandfreeze.models.QRCodeV1;
 import org.phramusca.cookandfreeze.models.Recipient;
-import org.phramusca.cookandfreeze.ui.main.CaptureActivityPortrait;
+import org.phramusca.cookandfreeze.ui.core.CaptureActivityPortrait;
 
 import java.util.Date;
 import java.util.Map;
@@ -41,107 +41,16 @@ public class FragmentRecipient extends Fragment {
 
     private String searchQuery="";
     private Context mContext;
-
-    //TODO: QR code to open application when read from third party barcode scanner
-    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
-            result -> {
-                if(result.getContents() == null) {
-                    Toast.makeText(mContext, "Cancelled", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                String content = result.getContents();
-                if(!content.startsWith("cookandfreeze://")) {
-                    Toast.makeText(mContext, "Not a valid QR code: \n" + content, Toast.LENGTH_LONG).show();
-                    return;
-                }
-                content = content.substring("cookandfreeze://".length());
-                try {
-                    Gson gson = new Gson();
-                    Map<?, ?> map = gson.fromJson(content, Map.class);
-                    if(!map.containsKey("version")) {
-                        Toast.makeText(mContext, "Not a valid QR code: \n" + content, Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    double version = (double) map.get("version");
-                    if (version != 1) {
-                        Toast.makeText(mContext, "Unsupported label version " + version + ". Please update.", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    QRCodeV1 qrCodeV1 = gson.fromJson(content, QRCodeV1.class);
-                    Recipient recipient = HelperDb.db.getRecipient(qrCodeV1.uuid);
-                    if (recipient.getDate().after(new Date(0))) {
-                        promptRecipient(recipient);
-                    } else {
-                        promptRecipient(qrCodeV1.toRecipient());
-                    }
-
-                } catch (JsonSyntaxException ex) {
-                    Toast.makeText(mContext, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+    private AdapterCursorRecipient adapterCursorRecipient;
 
     public FragmentRecipient(Context context) {
         mContext = context;
-    }
-
-    @SuppressLint({"Range", "NotifyDataSetChanged"})
-    private void promptRecipient(Recipient recipient) {
-        Recipient originalRecipient = new Recipient(recipient.getUuid());
-        try {
-            originalRecipient = (Recipient) recipient.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        Recipient finalOriginalRecipient = originalRecipient;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
-        DialogModificationBinding dialogModificationBinding = DialogModificationBinding.bind(view);
-
-        dialogModificationBinding.title.setText(recipient.getTitle());
-        dialogModificationBinding.content.setText(recipient.getContent());
-        dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
-
-        dialogModificationBinding.buttonClear.setOnClickListener(v -> dialogModificationBinding.content.setText(""));
-
-        dialogModificationBinding.buttonDateNow.setOnClickListener(v -> {
-            recipient.setDate(new Date());
-            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
-        });
-
-        dialogModificationBinding.buttonReset.setOnClickListener(v -> {
-            recipient.setDate(finalOriginalRecipient.getDate());
-            recipient.setContent(finalOriginalRecipient.getContent());
-            recipient.setTitle(finalOriginalRecipient.getTitle());
-
-            dialogModificationBinding.title.setText(recipient.getTitle());
-            dialogModificationBinding.content.setText(recipient.getContent());
-            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
-        });
-
-        builder
-                .setView(view)
-                .setPositiveButton("Modify",
-                        (dialog, id) -> {
-                            HelperDb.db.insertOrUpdateRecipient(
-                                    dialogModificationBinding.title.getText().toString(),
-                                    recipient.getUuid(),
-                                    dialogModificationBinding.content.getText().toString(),
-                                    recipient.getDate());
-                            Cursor cursor = HelperDb.db.getRecipients("");
-                            adapterCursorRecipient.changeCursor(cursor);
-                        })
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
-                .create()
-                .show();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-    private AdapterCursorRecipient adapterCursorRecipient;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -203,5 +112,95 @@ public class FragmentRecipient extends Fragment {
             barcodeLauncher.launch(scanOptions);
         });
         return view;
+    }
+
+    //TODO: QR code to open application when read from third party barcode scanner
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
+            result -> {
+                if(result.getContents() == null) {
+                    Toast.makeText(mContext, "Cancelled", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String content = result.getContents();
+                if(!content.startsWith("cookandfreeze://")) {
+                    Toast.makeText(mContext, "Not a valid QR code: \n" + content, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                content = content.substring("cookandfreeze://".length());
+                try {
+                    Gson gson = new Gson();
+                    Map<?, ?> map = gson.fromJson(content, Map.class);
+                    if(!map.containsKey("version")) {
+                        Toast.makeText(mContext, "Not a valid QR code: \n" + content, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    double version = (double) map.get("version");
+                    if (version != 1) {
+                        Toast.makeText(mContext, "Unsupported label version " + version + ". Please update.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    QRCodeV1 qrCodeV1 = gson.fromJson(content, QRCodeV1.class);
+                    Recipient recipient = HelperDb.db.getRecipient(qrCodeV1.uuid);
+                    if (recipient.getDate().after(new Date(0))) {
+                        promptRecipient(recipient);
+                    } else {
+                        promptRecipient(qrCodeV1.toRecipient());
+                    }
+
+                } catch (JsonSyntaxException ex) {
+                    Toast.makeText(mContext, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+    @SuppressLint({"Range", "NotifyDataSetChanged"})
+    private void promptRecipient(Recipient recipient) {
+        Recipient originalRecipient = new Recipient(recipient.getUuid());
+        try {
+            originalRecipient = (Recipient) recipient.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        Recipient finalOriginalRecipient = originalRecipient;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
+        DialogModificationBinding dialogModificationBinding = DialogModificationBinding.bind(view);
+
+        dialogModificationBinding.title.setText(recipient.getTitle());
+        dialogModificationBinding.content.setText(recipient.getContent());
+        dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
+
+        dialogModificationBinding.buttonClear.setOnClickListener(v -> dialogModificationBinding.content.setText(""));
+
+        dialogModificationBinding.buttonDateNow.setOnClickListener(v -> {
+            recipient.setDate(new Date());
+            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
+        });
+
+        dialogModificationBinding.buttonReset.setOnClickListener(v -> {
+            recipient.setDate(finalOriginalRecipient.getDate());
+            recipient.setContent(finalOriginalRecipient.getContent());
+            recipient.setTitle(finalOriginalRecipient.getTitle());
+
+            dialogModificationBinding.title.setText(recipient.getTitle());
+            dialogModificationBinding.content.setText(recipient.getContent());
+            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
+        });
+
+        builder
+                .setView(view)
+                .setPositiveButton("Modify",
+                        (dialog, id) -> {
+                            HelperDb.db.insertOrUpdateRecipient(
+                                    dialogModificationBinding.title.getText().toString(),
+                                    recipient.getUuid(),
+                                    dialogModificationBinding.content.getText().toString(),
+                                    recipient.getDate());
+                            Cursor cursor = HelperDb.db.getRecipients("");
+                            adapterCursorRecipient.changeCursor(cursor);
+                        })
+                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
+                .create()
+                .show();
     }
 }

@@ -9,13 +9,22 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.phramusca.cookandfreeze.database.HelperDb;
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
-import org.phramusca.cookandfreeze.ui.main.SectionsPagerAdapter;
+import org.phramusca.cookandfreeze.ui.main.PlaceholderFragment;
+import org.phramusca.cookandfreeze.ui.core.SectionsPagerAdapter;
+import org.phramusca.cookandfreeze.ui.recipient.FragmentRecipient;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,12 +37,18 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Map<String, Fragment> pages = new LinkedHashMap<>();
+        pages.put(getResources().getString(R.string.tab_text_1), new FragmentRecipient(this));
+        pages.put(getResources().getString(R.string.tab_text_2), PlaceholderFragment.newInstance(2));
+
         SectionsPagerAdapter sectionsPagerAdapter
-                = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = binding.viewPager;
+                = new SectionsPagerAdapter(this, new ArrayList<>(pages.values()));
+        ViewPager2 viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
-        tabs.setupWithViewPager(viewPager);
+        new TabLayoutMediator(tabs, viewPager,
+                (tab, position) -> tab.setText((String) pages.keySet().toArray()[position])
+        ).attach();
     }
 
     private final String[] PERMISSIONS = {

@@ -1,4 +1,4 @@
-package org.phramusca.cookandfreeze.ui.main;
+package org.phramusca.cookandfreeze.ui.core;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 
