@@ -1,6 +1,5 @@
 package org.phramusca.cookandfreeze.ui.recipient;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +15,17 @@ import org.phramusca.cookandfreeze.ui.core.AdapterCursor;
 import org.phramusca.cookandfreeze.ui.core.AdapterLoad;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHolder> implements Filterable {
 
-    private ViewGroup parent;
-
-    public AdapterCursorRecipient(Context context, Cursor cursor) {
-        super(context, cursor);
+    public AdapterCursorRecipient(Cursor cursor) {
+        super(cursor);
         oriCursor = cursor;
     }
 
     @Override
     @NotNull
     public AdapterLoad.UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        this.parent = parent;
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.queue_item_recipient, parent, false);
         return new AdapterLoad.UserViewHolder(itemView);
     }

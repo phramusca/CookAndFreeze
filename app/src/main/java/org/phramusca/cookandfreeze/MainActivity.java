@@ -17,12 +17,11 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.phramusca.cookandfreeze.database.HelperDb;
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
-import org.phramusca.cookandfreeze.ui.main.PlaceholderFragment;
 import org.phramusca.cookandfreeze.ui.core.SectionsPagerAdapter;
+import org.phramusca.cookandfreeze.ui.main.PlaceholderFragment;
 import org.phramusca.cookandfreeze.ui.recipient.FragmentRecipient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

@@ -17,7 +17,7 @@
 
 package org.phramusca.cookandfreeze.ui.core;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 
@@ -31,14 +31,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class AdapterCursor<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private final Context mContext;
     private Cursor mCursor;
     private boolean mDataValid;
     private int mRowIdColumn;
     private final DataSetObserver mDataSetObserver;
 
-    public AdapterCursor(Context context, Cursor cursor) {
-        mContext = context;
+    public AdapterCursor(Cursor cursor) {
         mCursor = cursor;
         mDataValid = cursor != null;
         mRowIdColumn = mDataValid ? mCursor.getColumnIndex("_id") : -1; //NON-NLS
@@ -80,9 +78,7 @@ public abstract class AdapterCursor<VH extends RecyclerView.ViewHolder> extends 
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }
-        if (!mCursor.moveToPosition(position)) {
-            throw new IllegalStateException("couldn't move cursor to position " + position);
-        }
+        mCursor.moveToPosition(position);
         onBindViewHolder(viewHolder, mCursor, position);
     }
 
@@ -102,6 +98,7 @@ public abstract class AdapterCursor<VH extends RecyclerView.ViewHolder> extends 
      * {@link #changeCursor(Cursor)}, the returned old Cursor is <em>not</em>
      * closed.
      */
+    @SuppressLint("NotifyDataSetChanged")
     public Cursor swapCursor(Cursor newCursor) {
         if (newCursor == mCursor) {
             return null;
@@ -116,19 +113,17 @@ public abstract class AdapterCursor<VH extends RecyclerView.ViewHolder> extends 
                 mCursor.registerDataSetObserver(mDataSetObserver);
             }
             mRowIdColumn = newCursor.getColumnIndex("_id"); //NON-NLS
-            //mRowIdColumn = mDataValid ? mCursor.getColumnIndex("_id") : -1;
             mDataValid = true;
-            notifyDataSetChanged();
         } else {
             mRowIdColumn = -1;
             mDataValid = false;
-            notifyDataSetChanged();
-            //There is no notifyDataSetInvalidated() method in RecyclerView.Adapter
         }
+        notifyDataSetChanged();
         return oldCursor;
     }
 
     private class NotifyingDataSetObserver extends DataSetObserver {
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         public void onChanged() {
             super.onChanged();
@@ -136,6 +131,7 @@ public abstract class AdapterCursor<VH extends RecyclerView.ViewHolder> extends 
             notifyDataSetChanged();
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         public void onInvalidated() {
             super.onInvalidated();

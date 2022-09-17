@@ -63,7 +63,7 @@ public class FragmentRecipient extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         Cursor cursor = HelperDb.db.getRecipients("");
-        adapterCursorRecipient = new AdapterCursorRecipient(mContext, cursor);
+        adapterCursorRecipient = new AdapterCursorRecipient(cursor);
         recyclerView.setAdapter(adapterCursorRecipient);
         adapterCursorRecipient.addListener(
                 adapterListItemRecipient -> promptRecipient(adapterListItemRecipient.toRecipient()));
