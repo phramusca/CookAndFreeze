@@ -78,48 +78,30 @@ public abstract class AdapterCursor<VH extends RecyclerView.ViewHolder> extends 
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }
-        mCursor.moveToPosition(position);
+        if (!mCursor.moveToPosition(position)) {
+            throw new IllegalStateException("couldn't move cursor to position " + position);
+        }
         onBindViewHolder(viewHolder, mCursor, position);
     }
 
     /**
-     * Change the underlying cursor to a new cursor. If there is an existing cursor it will be
-     * closed.
-     */
-    public void changeCursor(Cursor cursor) {
-        Cursor old = swapCursor(cursor);
-        if (old != null) {
-            old.close();
-        }
-    }
-
-    /**
-     * Swap in a new Cursor, returning the old Cursor.  Unlike
-     * {@link #changeCursor(Cursor)}, the returned old Cursor is <em>not</em>
-     * closed.
+     * Swap in a new Cursor.
      */
     @SuppressLint("NotifyDataSetChanged")
-    public Cursor swapCursor(Cursor newCursor) {
-        if (newCursor == mCursor) {
-            return null;
+    public void swapCursor(Cursor newCursor) {
+        if (newCursor == null || newCursor == mCursor) {
+            return;
         }
-        final Cursor oldCursor = mCursor;
-        if (oldCursor != null && mDataSetObserver != null) {
-            oldCursor.unregisterDataSetObserver(mDataSetObserver);
+        if (mDataSetObserver != null) {
+            mCursor.unregisterDataSetObserver(mDataSetObserver);
         }
         mCursor = newCursor;
-        if (mCursor != null) {
-            if (mDataSetObserver != null) {
-                mCursor.registerDataSetObserver(mDataSetObserver);
-            }
-            mRowIdColumn = newCursor.getColumnIndex("_id"); //NON-NLS
-            mDataValid = true;
-        } else {
-            mRowIdColumn = -1;
-            mDataValid = false;
+        if (mDataSetObserver != null) {
+            mCursor.registerDataSetObserver(mDataSetObserver);
         }
+        mRowIdColumn = newCursor.getColumnIndex("_id"); //NON-NLS
+        mDataValid = true;
         notifyDataSetChanged();
-        return oldCursor;
     }
 
     private class NotifyingDataSetObserver extends DataSetObserver {

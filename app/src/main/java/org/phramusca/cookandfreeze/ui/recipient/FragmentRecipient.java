@@ -196,7 +196,7 @@ public class FragmentRecipient extends Fragment {
                                     dialogModificationBinding.content.getText().toString(),
                                     recipient.getDate());
                             Cursor cursor = HelperDb.db.getRecipients("");
-                            adapterCursorRecipient.changeCursor(cursor);
+                            adapterCursorRecipient.swapCursor(cursor);
                         })
                 .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
                 .create()
