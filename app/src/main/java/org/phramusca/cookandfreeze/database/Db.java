@@ -54,16 +54,18 @@ public class Db {
 
     @SuppressLint("Range")
     public Recipient getRecipient(String uuid) {
-        Recipient recipient = new Recipient(uuid);
+        Recipient recipient = null;
         try {
             Cursor cursor = db.query(TABLE_RECIPIENTS, new String[]{COL_CONTENT, COL_TITLE, COL_UUID, COL_DATE},
                     COL_UUID + "=?", new String[]{uuid}, null, null, COL_TITLE);
             if(cursor!=null && cursor.moveToFirst()) {
-                recipient.setTitle(cursor.getString(cursor.getColumnIndex(COL_TITLE)));
-                recipient.setContent(cursor.getString(cursor.getColumnIndex(DbSchema.COL_CONTENT)));
                 Date date = HelperDateTime.parseSqlUtc(
                         cursor.getString(cursor.getColumnIndex(DbSchema.COL_DATE)));
-                recipient.setDate(date);
+                recipient = new Recipient(
+                        uuid,
+                        cursor.getString(cursor.getColumnIndex(COL_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(DbSchema.COL_CONTENT)),
+                        date);
             }
         } catch (SQLiteException | IllegalStateException ex) { //NON-NLS
             Log.e(TAG, "getRecipient()", ex); //NON-NLS

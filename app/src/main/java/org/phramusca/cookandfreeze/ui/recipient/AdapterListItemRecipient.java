@@ -54,10 +54,6 @@ public class AdapterListItemRecipient {
     }
 
     public Recipient toRecipient() {
-        Recipient recipient = new Recipient(getUuid());
-        recipient.setDate(date);
-        recipient.setContent(getContent());
-        recipient.setTitle(getTitle());
-        return recipient;
+        return new Recipient(uuid, title, content, date);
     }
 }

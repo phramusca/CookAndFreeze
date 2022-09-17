@@ -8,12 +8,19 @@ import java.util.Objects;
 public class Recipient implements Cloneable{
 
     private final String uuid;
-    private String title = "";
-    private String content = "";
-    private Date date = new Date(0);
+    private String title;
+    private String content;
+    private Date date;
+
+    public Recipient(String uuid, String title, String content, Date date) {
+        this.uuid = uuid;
+        this.title = title;
+        this.content = content;
+        this.date = date;
+    }
 
     public Recipient(String uuid) {
-        this.uuid = uuid;
+        this(uuid, "", "", new Date());
     }
 
     public String getTitle() {

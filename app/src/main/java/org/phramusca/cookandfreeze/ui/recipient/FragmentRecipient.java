@@ -141,12 +141,11 @@ public class FragmentRecipient extends Fragment {
                     }
                     QRCodeV1 qrCodeV1 = gson.fromJson(content, QRCodeV1.class);
                     Recipient recipient = HelperDb.db.getRecipient(qrCodeV1.uuid);
-                    if (recipient.getDate().after(new Date(0))) {
+                    if (recipient!=null) {
                         promptRecipient(recipient);
                     } else {
                         promptRecipient(qrCodeV1.toRecipient());
                     }
-
                 } catch (JsonSyntaxException ex) {
                     Toast.makeText(mContext, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
