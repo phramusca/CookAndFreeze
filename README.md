@@ -24,7 +24,7 @@ title,content
 
 Of course, you can create those manually (you can get generate uuids with [https://www.guidgenerator.com/](https://www.guidgenerator.com/)).
 
-- Use GLabels to generate and print your labels:
+- Use GLabels to print your labels:
   - Open a glabel project:
     - If you are using "24 Etiquettes Congélation" Ref. 316656 from Casino, you can use [labels/CookAndFreeze.glabels](labels/CookAndFreeze.glabels) file
     - Otherwise, create a new glabel project (there are plenty of available templates or you can create your own quite easily)
