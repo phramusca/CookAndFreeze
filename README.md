@@ -2,15 +2,22 @@
 
 With `CookAndFreeze` for Android, easily manage recipients (content and frozen date) stored in your freezer (or elsewhere).
 
-## Creating self-adhesive labels
+## Usage
+
+Now that you have [created self-adhesive labels](#create-self-adhesive-labels) and sticked your labels to your recipients, you can scan them using CookAndFreeze with your smartphone.
+
+You can then store their content and frozen date so that you can manage your meals easily.
+
+## Create self-adhesive labels
 
 - Create CSV files with your labels info using C# application from `labels/labeller` folder:
 
 ```powershell
-dotnet run labels/labeller/Program.cs --NumberOfLabelsPerPage 7 --FirstLabelNumber 2
+cd labels/labeller
+dotnet run Program.cs --NumberOfPages 2 --NumberOfLabelsPerPage 5 --FirstLabelNumber 2
 ```
 
-Example of a generated file with `--NumberOfLabelsPerPage 5 --FirstLabelNumber 2` arguments:
+The above command will generate 2 files. Here is an example of the first one:
 
 ```csv
 title,content
@@ -39,8 +46,4 @@ Note:
 - I am using the GLabels Flathub package (org.gnome.glabels3) from ubuntu repository.
 - The [version 4](https://github.com/jimevins/glabels-qt) is not yet released as of 2022 Sept. 16.
 
-## Usage
 
-Now that you have printed and sticked your labels to your recipients, you can scan them using CookAndFreeze with your smartphone.
-
-You can then store their content and frozen date so that you can manage your meals easily.

@@ -85,3 +85,5 @@ lint/tmp/
 # lint/reports/
 
 labels/labeller/obj/
+
+*.csv

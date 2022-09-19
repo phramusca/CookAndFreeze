@@ -24,11 +24,7 @@ import android.database.DataSetObserver;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * Created by skyfishjy on 10/31/14.
- * https://gist.github.com/skyfishjy/443b7448f59be978bc59
- */
-
+//Inspired from https://gist.github.com/skyfishjy/443b7448f59be978bc59
 public abstract class AdapterCursor<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private Cursor mCursor;
