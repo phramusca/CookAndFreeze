@@ -123,7 +123,15 @@ public class FragmentRecipient extends Fragment {
                 }
                 String content = result.getContents();
                 if(!content.startsWith("cookandfreeze://")) {
-                    Toast.makeText(mContext, "Not a valid QR code: \n" + content, Toast.LENGTH_LONG).show();
+                    Recipient recipient = HelperDb.db.getRecipient(content);
+                    if (recipient!=null) {
+                        promptRecipient(recipient);
+                    } else {
+                        recipient = new Recipient(content);
+                        recipient.setTitle("OLD: " + content);
+                        promptRecipient(recipient);
+                    }
+                    //Toast.makeText(mContext, "Not a valid QR code: \n" + content, Toast.LENGTH_LONG).show();
                     return;
                 }
                 content = content.substring("cookandfreeze://".length());
