@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 
 import org.phramusca.cookandfreeze.R;
+import org.phramusca.cookandfreeze.helpers.HelperFile;
 
 public class DbSchema extends SQLiteOpenHelper {
 
@@ -26,9 +27,7 @@ public class DbSchema extends SQLiteOpenHelper {
             + COL_CONTENT + " TEXT NOT NULL); "; //NON-NLS
 
     DbSchema(final Context context) {
-        super(context,Environment.getExternalStorageDirectory()
-                    + "/"+context.getResources().getString(R.string.app_name)
-                        +"/"+context.getResources().getString(R.string.app_name)+".db",
+        super(context, HelperFile.getFile(context.getResources().getString(R.string.app_name)+".db").getAbsolutePath(),
                 null, DB_VERSION); //NON-NLS
     }
 

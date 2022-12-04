@@ -87,3 +87,7 @@ lint/tmp/
 labels/labeller/obj/
 
 *.csv
+
+app/debug/output-metadata.json
+
+app/release/output-metadata.json

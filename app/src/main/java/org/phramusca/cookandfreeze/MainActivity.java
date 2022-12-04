@@ -17,6 +17,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.phramusca.cookandfreeze.database.HelperDb;
 import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
+import org.phramusca.cookandfreeze.helpers.HelperFile;
+import org.phramusca.cookandfreeze.helpers.HelperToast;
 import org.phramusca.cookandfreeze.ui.core.SectionsPagerAdapter;
 import org.phramusca.cookandfreeze.ui.main.PlaceholderFragment;
 import org.phramusca.cookandfreeze.ui.recipient.FragmentRecipient;
@@ -27,10 +29,16 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final HelperToast helperToast = new HelperToast(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(!HelperFile.init(this)) {
+            helperToast.toastLong("Unable to find a writable application folder. Exiting :(");
+            return;
+        }
         checkPermissionsAndConnectDatabase();
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -51,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private final String[] PERMISSIONS = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     private static final int REQUEST = 15694;
