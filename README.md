@@ -29,7 +29,7 @@ title,content
 
 ```
 
-Of course, you can create those manually (you can get generate uuids with [https://www.guidgenerator.com/](https://www.guidgenerator.com/)).
+Of course, you can create those manually (you can generate uuids with [https://www.guidgenerator.com/](https://www.guidgenerator.com/)).
 
 - Use GLabels to print your labels:
   - Open a glabel project:
