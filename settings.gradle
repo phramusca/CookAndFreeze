@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter() // otherwise:  Failed to resolve: com.athkalia.emphasis:emphasis:0.4
     }
 }
 rootProject.name = "CookAndFreeze"
