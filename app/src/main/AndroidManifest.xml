@@ -15,8 +15,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.CookAndFreeze.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.CookAndFreeze.NoActionBar"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
