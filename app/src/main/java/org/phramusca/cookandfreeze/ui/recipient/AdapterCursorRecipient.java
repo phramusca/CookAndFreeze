@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import androidx.core.content.ContextCompat;
+
 import org.jetbrains.annotations.NotNull;
 import org.phramusca.cookandfreeze.R;
 import org.phramusca.cookandfreeze.database.HelperDb;
@@ -45,12 +47,29 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
 
         userViewHolder.item_line1.setText(adapterListItemRecipient.getTitle());
 
-        userViewHolder.item_line2.setText(adapterListItemRecipient.getContent());
-        if(!searchQuery.isEmpty()) {
-            userViewHolder.item_line2.setTextToHighlight(searchQuery);
-            userViewHolder.item_line2.setTextHighlightColor(R.color.teal_700);
-            userViewHolder.item_line2.setCaseInsensitive(true);
-            userViewHolder.item_line2.highlight();
+        String content = adapterListItemRecipient.getContent();
+        if (!searchQuery.isEmpty()) {
+            String lowerContent = content.toLowerCase();
+            String lowerQuery = searchQuery.toLowerCase();
+            int start = lowerContent.indexOf(lowerQuery);
+            if (start >= 0) {
+                android.text.SpannableString spannable = new android.text.SpannableString(content);
+                int end = start + lowerQuery.length();
+                int color = ContextCompat.getColor(
+                    userViewHolder.item_line2.getContext(),
+                    R.color.teal_700
+                );
+                spannable.setSpan(
+                    new android.text.style.ForegroundColorSpan(color),
+                    start, end,
+                    android.text.Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                userViewHolder.item_line2.setText(spannable);
+            } else {
+                userViewHolder.item_line2.setText(content);
+            }
+        } else {
+            userViewHolder.item_line2.setText(content);
         }
 
         String dateDisplay = HelperDateTime.formatUTC(adapterListItemRecipient.getDate(),

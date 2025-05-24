@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.athkalia.emphasis.EmphasisTextView
+        <TextView
             android:text="Line 1"
             android:id="@+id/item_line1"
             android:layout_width="wrap_content"
@@ -32,9 +32,9 @@
             android:textStyle="bold"
             android:textSize="14sp"
             tools:ignore="HardcodedText">
-        </com.athkalia.emphasis.EmphasisTextView>
+        </TextView>
 
-        <com.athkalia.emphasis.EmphasisTextView
+        <TextView
             android:text="Line 2"
             android:id="@+id/item_line2"
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
             android:paddingEnd="2dp"
             tools:ignore="HardcodedText"
             android:textSize="14sp">
-        </com.athkalia.emphasis.EmphasisTextView>
+        </TextView>
 
         <TextView
             android:text="Line 3"
