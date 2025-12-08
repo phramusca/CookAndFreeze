@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Couleurs principales modernes -->
+    <color name="primary_50">#E3F2FD</color>
+    <color name="primary_100">#BBDEFB</color>
+    <color name="primary_200">#90CAF9</color>
+    <color name="primary_500">#2196F3</color>
+    <color name="primary_700">#1976D2</color>
+    <color name="primary_900">#0D47A1</color>
+    
+    <!-- Couleurs secondaires -->
+    <color name="secondary_200">#EF9A9A</color>
+    <color name="secondary_500">#F44336</color>
+    <color name="secondary_700">#C62828</color>
+    
+    <!-- Couleurs d'accent -->
+    <color name="accent_500">#FF9800</color>
+    <color name="accent_700">#F57C00</color>
+    
+    <!-- Couleurs neutres -->
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F5F5</color>
+    <color name="background">#FAFAFA</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_primary">#DE000000</color>
+    <color name="text_secondary">#99000000</color>
+    
+    <!-- Couleurs pour les statistiques -->
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="error">#F44336</color>
+    <color name="info">#2196F3</color>
+    
+    <!-- Anciennes couleurs (pour compatibilité) -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 </resources>

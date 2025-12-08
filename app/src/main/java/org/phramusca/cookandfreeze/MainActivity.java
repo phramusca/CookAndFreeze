@@ -45,7 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
         Map<String, Fragment> pages = new LinkedHashMap<>();
         pages.put(getResources().getString(R.string.tab_text_1), new FragmentRecipient(this));
-        pages.put(getResources().getString(R.string.tab_text_2), PlaceholderFragment.newInstance(2));
+        pages.put(getResources().getString(R.string.tab_text_2), new org.phramusca.cookandfreeze.ui.inventory.FragmentInventory(this));
+
+        int[] tabIcons = {
+                R.drawable.ic_baseline_kitchen_24,
+                R.drawable.ic_baseline_assignment_24
+        };
 
         SectionsPagerAdapter sectionsPagerAdapter
                 = new SectionsPagerAdapter(this, new ArrayList<>(pages.values()));
@@ -53,7 +58,12 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         new TabLayoutMediator(tabs, viewPager,
-                (tab, position) -> tab.setText((String) pages.keySet().toArray()[position])
+                (tab, position) -> {
+                    tab.setText((String) pages.keySet().toArray()[position]);
+                    if (position < tabIcons.length) {
+                        tab.setIcon(tabIcons[position]);
+                    }
+                }
         ).attach();
     }
 

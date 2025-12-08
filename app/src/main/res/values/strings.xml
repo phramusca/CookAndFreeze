@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">CookAndFreeze</string>
-    <string name="tab_text_1">Recipients</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="search">Search</string>
+    <string name="tab_text_1">Récipients</string>
+    <string name="tab_text_2">Inventaire</string>
+    <string name="search">Rechercher</string>
+    <string name="scan">Scanner un QR code</string>
+    <string name="total_recipients">Total récipients</string>
+    <string name="recent_recipients">Récents (7 jours)</string>
+    <string name="oldest_recipients">Plus anciens</string>
+    <string name="empty_content">Aucun contenu</string>
+    <string name="modify">Modifier</string>
+    <string name="cancel">Annuler</string>
+    <string name="clear">Effacer</string>
+    <string name="now">Maintenant</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="inventory_overview">Vue d\'ensemble</string>
+    <string name="inventory_empty">Aucun récipient dans l\'inventaire</string>
+    <string name="inventory_stats">Statistiques</string>
+    <string name="date_frozen">Date de congélation</string>
 </resources>

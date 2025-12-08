@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -20,6 +18,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -68,7 +71,8 @@ public class FragmentRecipient extends Fragment {
         adapterCursorRecipient.addListener(
                 adapterListItemRecipient -> promptRecipient(adapterListItemRecipient.toRecipient()));
 
-        EditText queryText = view.findViewById(R.id.filter_album);
+        TextInputLayout searchLayout = view.findViewById(R.id.search_layout);
+        TextInputEditText queryText = view.findViewById(R.id.filter_album);
         queryText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -87,25 +91,25 @@ public class FragmentRecipient extends Fragment {
                 InputMethodManager inputMethodManager = (InputMethodManager) v.getContext()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                v.setVisibility(View.GONE);
+                searchLayout.setVisibility(View.GONE);
                 return true;
             }
             return false;
         });
 
-        Button button_search = view.findViewById(R.id.button_search);
+        FloatingActionButton button_search = view.findViewById(R.id.button_search);
         button_search.setOnClickListener(v -> {
-            queryText.setVisibility(View.VISIBLE);
+            searchLayout.setVisibility(View.VISIBLE);
             queryText.requestFocus();
             final InputMethodManager inputMethodManager = (InputMethodManager) v.getContext()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.showSoftInput(queryText, InputMethodManager.SHOW_IMPLICIT);
         });
 
-        Button button_scan = view.findViewById(R.id.button_scan);
+        ExtendedFloatingActionButton button_scan = view.findViewById(R.id.button_scan);
         button_scan.setOnClickListener(v -> {
             ScanOptions scanOptions = new ScanOptions()
-                    .setPrompt("Scan a barcode on a recipient.")
+                    .setPrompt(getString(R.string.scan))
                     .setOrientationLocked(true)
                     .setBeepEnabled(false)
                     .setCaptureActivity(CaptureActivityPortrait.class);
@@ -188,7 +192,7 @@ public class FragmentRecipient extends Fragment {
 
         builder
                 .setView(view)
-                .setPositiveButton("Modify",
+                .setPositiveButton(getString(R.string.modify),
                         (dialog, id) -> {
                             HelperDb.db.insertOrUpdateRecipient(
                                     dialogModificationBinding.title.getText().toString(),
@@ -198,7 +202,7 @@ public class FragmentRecipient extends Fragment {
                             Cursor cursor = HelperDb.db.getRecipients("");
                             adapterCursorRecipient.swapCursor(cursor);
                         })
-                .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel())
+                .setNegativeButton(getString(R.string.cancel), (dialog, id) -> dialog.cancel())
                 .create()
                 .show();
     }

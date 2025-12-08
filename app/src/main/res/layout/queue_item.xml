@@ -2,58 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:id="@+id/layout_item">
+    android:id="@+id/layout_item"
+    android:padding="16dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:contentDescription="cover description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/app_name"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:paddingTop="5dp"
-        tools:ignore="HardcodedText" />
+        android:src="@drawable/ic_baseline_kitchen_24"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="12dp"
+        android:backgroundTint="@color/primary_100" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp">
 
         <TextView
-            android:text="Line 1"
             android:id="@+id/item_line1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
             android:textStyle="bold"
-            android:textSize="14sp"
-            tools:ignore="HardcodedText">
-        </TextView>
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Récipient 001" />
 
         <TextView
-            android:text="Line 2"
             android:id="@+id/item_line2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            tools:ignore="HardcodedText"
-            android:textSize="14sp">
-        </TextView>
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="Description du contenu" />
 
         <TextView
-            android:text="Line 3"
             android:id="@+id/item_line3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            tools:ignore="HardcodedText"
-            android:textSize="14sp">
-        </TextView>
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:textStyle="italic"
+            tools:text="01/01/2024" />
     </LinearLayout>
 </LinearLayout>
