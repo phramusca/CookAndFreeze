@@ -19,7 +19,6 @@ import org.phramusca.cookandfreeze.helpers.HelperDateTime;
 import org.phramusca.cookandfreeze.models.Recipient;
 import org.phramusca.cookandfreeze.ui.recipient.AdapterCursorRecipient;
 import org.phramusca.cookandfreeze.ui.recipient.AdapterListItemRecipient;
-import org.phramusca.cookandfreeze.ui.recipient.IListenerAdapterRecipient;
 
 import java.util.Calendar;
 import java.util.Date;

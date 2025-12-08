@@ -19,7 +19,6 @@ import org.phramusca.cookandfreeze.databinding.ActivityMainBinding;
 import org.phramusca.cookandfreeze.helpers.HelperFile;
 import org.phramusca.cookandfreeze.helpers.HelperToast;
 import org.phramusca.cookandfreeze.ui.core.SectionsPagerAdapter;
-import org.phramusca.cookandfreeze.ui.main.PlaceholderFragment;
 import org.phramusca.cookandfreeze.ui.recipient.FragmentRecipient;
 
 import java.util.ArrayList;
