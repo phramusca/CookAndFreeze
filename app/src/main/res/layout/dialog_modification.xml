@@ -88,49 +88,61 @@
             android:autofillHints="" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Réinitialiser / Effacer / Maintenant : centré, icône + label petit -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end">
+        android:gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_reset"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/reset_short"
+            android:textSize="12sp"
+            android:textAllCaps="false"
             android:contentDescription="@string/reset"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="8dp"
             app:icon="@drawable/ic_refresh_24"
             app:iconTint="@color/text_secondary"
             app:iconGravity="textStart"
-            app:iconSize="24dp"
-            app:iconPadding="0dp" />
+            app:iconSize="20dp"
+            app:iconPadding="4dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_clear"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/clear"
+            android:textSize="12sp"
+            android:textAllCaps="false"
             android:contentDescription="@string/clear"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="8dp"
             app:icon="@drawable/ic_clear_24"
             app:iconTint="@color/text_secondary"
             app:iconGravity="textStart"
-            app:iconSize="24dp"
-            app:iconPadding="0dp" />
+            app:iconSize="20dp"
+            app:iconPadding="4dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_date_now"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/now"
+            android:textSize="12sp"
+            android:textAllCaps="false"
             android:contentDescription="@string/now"
             app:icon="@drawable/ic_schedule_24"
             app:iconTint="@color/text_secondary"
             app:iconGravity="textStart"
-            app:iconSize="24dp"
-            app:iconPadding="0dp" />
+            app:iconSize="20dp"
+            app:iconPadding="4dp" />
     </LinearLayout>
 
     <!-- Supprimer à gauche, Annuler et Ajouter/Modifier à droite -->

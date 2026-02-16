@@ -25,6 +25,7 @@
     <string name="clear">Effacer</string>
     <string name="now">Maintenant</string>
     <string name="reset">Réinitialiser</string>
+    <string name="reset_short">Réinit.</string>
     <string name="inventory_stats">Statistiques</string>
     <string name="date_added">Date d\'ajout</string>
     <string name="inventaire_title">Scanne-les tous !</string>
