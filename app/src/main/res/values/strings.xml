@@ -2,6 +2,7 @@
     <string name="app_name">CookAndFreeze</string>
     <string name="tab_text_1">Récipients</string>
     <string name="tab_text_2">Stats</string>
+    <string name="tab_text_3">Inventaire</string>
     <string name="search">Rechercher</string>
     <string name="scan">Scanner un QR code</string>
     <string name="total_recipients">Total récipients</string>
@@ -15,4 +16,10 @@
     <string name="reset">Réinitialiser</string>
     <string name="inventory_stats">Statistiques</string>
     <string name="date_frozen">Date de congélation</string>
+    <string name="inventaire_title">Scanne-les tous !</string>
+    <string name="inventaire_subtitle">Scanne chaque récipient pour l’enlever de la liste. Objectif : liste vide.</string>
+    <string name="inventaire_remaining">Il en reste %d !</string>
+    <string name="inventaire_empty_title">Congélateur vide ! 🎉</string>
+    <string name="inventaire_empty_subtitle">Tu les as tous scannés. Bravo !</string>
+    <string name="inventaire_scanned_toast">Un de moins !</string>
 </resources>

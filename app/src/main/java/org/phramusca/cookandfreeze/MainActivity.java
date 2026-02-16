@@ -45,10 +45,12 @@ public class MainActivity extends AppCompatActivity {
         Map<String, Fragment> pages = new LinkedHashMap<>();
         pages.put(getResources().getString(R.string.tab_text_1), new FragmentRecipient(this));
         pages.put(getResources().getString(R.string.tab_text_2), new org.phramusca.cookandfreeze.ui.inventory.FragmentInventory(this));
+        pages.put(getResources().getString(R.string.tab_text_3), new org.phramusca.cookandfreeze.ui.inventaire.FragmentInventaire(this));
 
         int[] tabIcons = {
                 R.drawable.ic_baseline_kitchen_24,
-                R.drawable.ic_baseline_assignment_24
+                R.drawable.ic_baseline_assignment_24,
+                R.drawable.ic_baseline_playlist_add_check_24
         };
 
         SectionsPagerAdapter sectionsPagerAdapter
