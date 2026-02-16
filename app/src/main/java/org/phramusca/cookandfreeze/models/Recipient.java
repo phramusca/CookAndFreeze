@@ -11,16 +11,22 @@ public class Recipient implements Cloneable{
     private String title;
     private String content;
     private Date date;
+    private Date inventoryDate;
 
     public Recipient(String uuid, String title, String content, Date date) {
+        this(uuid, title, content, date, null);
+    }
+
+    public Recipient(String uuid, String title, String content, Date date, Date inventoryDate) {
         this.uuid = uuid;
         this.title = title;
         this.content = content;
         this.date = date;
+        this.inventoryDate = inventoryDate;
     }
 
     public Recipient(String uuid) {
-        this(uuid, "", "", new Date());
+        this(uuid, "", "", new Date(), null);
     }
 
     public String getTitle() {
@@ -49,6 +55,14 @@ public class Recipient implements Cloneable{
 
     public String getUuid() {
         return uuid;
+    }
+
+    public Date getInventoryDate() {
+        return inventoryDate;
+    }
+
+    public void setInventoryDate(Date inventoryDate) {
+        this.inventoryDate = inventoryDate;
     }
 
     @Override

@@ -76,6 +76,14 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
                 HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true);
         userViewHolder.item_line3.setText(dateDisplay);
 
+        if (adapterListItemRecipient.getInventoryDate() != null && userViewHolder.item_line4 != null) {
+            userViewHolder.item_line4.setVisibility(View.VISIBLE);
+            userViewHolder.item_line4.setText(userViewHolder.item_line4.getContext().getString(R.string.date_inventory) + ": " +
+                    HelperDateTime.formatUTC(adapterListItemRecipient.getInventoryDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
+        } else if (userViewHolder.item_line4 != null) {
+            userViewHolder.item_line4.setVisibility(View.GONE);
+        }
+
         // Clic sur la vue qui consomme le touch (layout_item), pas seulement sur itemView (CardView)
         View clickTarget = userViewHolder.itemView.findViewById(R.id.layout_item);
         (clickTarget != null ? clickTarget : userViewHolder.itemView).setOnClickListener(view -> sendListener(adapterListItemRecipient));

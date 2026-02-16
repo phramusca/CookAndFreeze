@@ -31,7 +31,6 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import org.phramusca.cookandfreeze.R;
 import org.phramusca.cookandfreeze.database.HelperDb;
-import org.phramusca.cookandfreeze.databinding.DialogModificationBinding;
 import org.phramusca.cookandfreeze.helpers.HelperDateTime;
 import org.phramusca.cookandfreeze.models.QRCodeV1;
 import org.phramusca.cookandfreeze.models.Recipient;
@@ -69,7 +68,7 @@ public class FragmentRecipient extends Fragment {
         adapterCursorRecipient = new AdapterCursorRecipient(cursor);
         recyclerView.setAdapter(adapterCursorRecipient);
         adapterCursorRecipient.addListener(
-                adapterListItemRecipient -> promptRecipient(adapterListItemRecipient.toRecipient()));
+                adapterListItemRecipient -> promptRecipient(adapterListItemRecipient.toRecipient(), false));
 
         TextInputLayout searchLayout = view.findViewById(R.id.search_layout);
         TextInputEditText queryText = view.findViewById(R.id.filter_album);
@@ -145,65 +144,22 @@ public class FragmentRecipient extends Fragment {
                     }
                     QRCodeV1 qrCodeV1 = gson.fromJson(content, QRCodeV1.class);
                     Recipient recipient = HelperDb.db.getRecipient(qrCodeV1.uuid);
-                    if (recipient!=null) {
-                        promptRecipient(recipient);
+                    if (recipient != null) {
+                        promptRecipient(recipient, false);
                     } else {
-                        promptRecipient(qrCodeV1.toRecipient());
+                        promptRecipient(qrCodeV1.toRecipient(), true);
                     }
                 } catch (JsonSyntaxException ex) {
                     Toast.makeText(mContext, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
 
-    @SuppressLint({"Range", "NotifyDataSetChanged"})
-    private void promptRecipient(Recipient recipient) {
-        Recipient originalRecipient = new Recipient(recipient.getUuid());
-        try {
-            originalRecipient = (Recipient) recipient.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        Recipient finalOriginalRecipient = originalRecipient;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        View view = getLayoutInflater().inflate(R.layout.dialog_modification, null);
-        DialogModificationBinding dialogModificationBinding = DialogModificationBinding.bind(view);
-
-        dialogModificationBinding.title.setText(recipient.getTitle());
-        dialogModificationBinding.content.setText(recipient.getContent());
-        dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
-
-        dialogModificationBinding.buttonClear.setOnClickListener(v -> dialogModificationBinding.content.setText(""));
-
-        dialogModificationBinding.buttonDateNow.setOnClickListener(v -> {
-            recipient.setDate(new Date());
-            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
-        });
-
-        dialogModificationBinding.buttonReset.setOnClickListener(v -> {
-            recipient.setDate(finalOriginalRecipient.getDate());
-            recipient.setContent(finalOriginalRecipient.getContent());
-            recipient.setTitle(finalOriginalRecipient.getTitle());
-
-            dialogModificationBinding.title.setText(recipient.getTitle());
-            dialogModificationBinding.content.setText(recipient.getContent());
-            dialogModificationBinding.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
-        });
-
-        builder
-                .setView(view)
-                .setPositiveButton(getString(R.string.modify),
-                        (dialog, id) -> {
-                            HelperDb.db.insertOrUpdateRecipient(
-                                    dialogModificationBinding.title.getText().toString(),
-                                    recipient.getUuid(),
-                                    dialogModificationBinding.content.getText().toString(),
-                                    recipient.getDate());
-                            Cursor cursor = HelperDb.db.getRecipients("");
-                            adapterCursorRecipient.swapCursor(cursor);
-                        })
-                .setNegativeButton(getString(R.string.cancel), (dialog, id) -> dialog.cancel())
-                .create()
-                .show();
+    private void promptRecipient(Recipient recipient, boolean isNew) {
+        RecipientDialogHelper.Mode mode = isNew ? RecipientDialogHelper.Mode.ADD : RecipientDialogHelper.Mode.EDIT;
+        Runnable refresh = () -> {
+            Cursor cursor = HelperDb.db.getRecipients("");
+            adapterCursorRecipient.swapCursor(cursor);
+        };
+        RecipientDialogHelper.show(requireContext(), getLayoutInflater(), recipient, mode, refresh, null, refresh);
     }
 }

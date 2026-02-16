@@ -10,7 +10,7 @@ import org.phramusca.cookandfreeze.helpers.HelperFile;
 
 public class DbSchema extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public static final String TABLE_RECIPIENTS = "recipients"; //NON-NLS
 
@@ -18,13 +18,15 @@ public class DbSchema extends SQLiteOpenHelper {
     public static final String COL_UUID = "uuid";
     public static final String COL_CONTENT = "content";
     public static final String COL_DATE = "date";
+    public static final String COL_INVENTORY_DATE = "inventory_date";
 
     private static final String CREATE_TABLE_RECIPIENTS =
             "CREATE TABLE " + TABLE_RECIPIENTS + " (" //NON-NLS //NON-NLS
             + COL_UUID + " TEXT PRIMARY KEY, "
             + COL_TITLE + " TEXT NOT NULL, " //NON-NLS
             + COL_DATE + " TEXT NOT NULL, " //NON-NLS
-            + COL_CONTENT + " TEXT NOT NULL); "; //NON-NLS
+            + COL_CONTENT + " TEXT NOT NULL, "
+            + COL_INVENTORY_DATE + " TEXT); "; //NON-NLS
 
     DbSchema(final Context context) {
         super(context, HelperFile.getFile(context.getResources().getString(R.string.app_name)+".db").getAbsolutePath(),
@@ -38,7 +40,8 @@ public class DbSchema extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //NON-NLS
-        db.execSQL("DROP TABLE " + TABLE_RECIPIENTS + ";"); //NON-NLS
-        onCreate(db);
+        if (oldVersion < 4) {
+            db.execSQL("ALTER TABLE " + TABLE_RECIPIENTS + " ADD COLUMN " + COL_INVENTORY_DATE + " TEXT;"); //NON-NLS
+        }
     }
 }

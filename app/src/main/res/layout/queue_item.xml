@@ -62,5 +62,16 @@
             android:textColor="@color/text_secondary"
             android:textStyle="italic"
             tools:text="01/01/2024" />
+
+        <TextView
+            android:id="@+id/item_line4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="11sp"
+            android:textColor="@color/text_secondary"
+            android:visibility="gone"
+            tools:text="Inventaire: 15/02/2025"
+            tools:visibility="visible" />
     </LinearLayout>
 </LinearLayout>

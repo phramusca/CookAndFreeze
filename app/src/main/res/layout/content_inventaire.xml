@@ -36,15 +36,30 @@
                 android:textColor="@color/text_secondary"
                 android:layout_marginTop="4dp" />
 
-            <TextView
-                android:id="@+id/text_inventaire_remaining"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_500"
-                tools:text="Il en reste 12 !" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/text_inventaire_remaining"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_500"
+                    tools:text="Il en reste 12 !" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_inventaire_reset"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/inventaire_reset" />
+            </LinearLayout>
         </LinearLayout>
 
         <FrameLayout

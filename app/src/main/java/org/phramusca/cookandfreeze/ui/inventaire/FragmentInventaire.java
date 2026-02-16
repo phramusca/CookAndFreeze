@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -24,9 +25,11 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import org.phramusca.cookandfreeze.R;
 import org.phramusca.cookandfreeze.database.HelperDb;
+import org.phramusca.cookandfreeze.models.Recipient;
 import org.phramusca.cookandfreeze.models.QRCodeV1;
 import org.phramusca.cookandfreeze.ui.core.CaptureActivityPortrait;
 import org.phramusca.cookandfreeze.ui.recipient.AdapterListItemRecipient;
+import org.phramusca.cookandfreeze.ui.recipient.RecipientDialogHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +68,12 @@ public class FragmentInventaire extends Fragment {
                 if (version != 1) return;
                 QRCodeV1 qrCodeV1 = gson.fromJson(content, QRCodeV1.class);
                 if (qrCodeV1 == null || qrCodeV1.uuid == null) return;
-                onRecipientScanned(qrCodeV1.uuid);
+                Recipient recipient = HelperDb.db.getRecipient(qrCodeV1.uuid);
+                if (recipient != null) {
+                    onRecipientScannedKnown(recipient);
+                } else {
+                    openNewRecipientDialog(qrCodeV1.toRecipient());
+                }
             } catch (JsonSyntaxException ignored) {
             }
         });
@@ -82,8 +90,12 @@ public class FragmentInventaire extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         adapter = new AdapterInventaire();
         recyclerView.setAdapter(adapter);
+        adapter.addListener(item -> openModifyDialog(item.toRecipient()));
 
         loadList();
+
+        MaterialButton buttonReset = view.findViewById(R.id.button_inventaire_reset);
+        buttonReset.setOnClickListener(v -> loadList());
 
         ExtendedFloatingActionButton buttonScan = view.findViewById(R.id.button_scan_inventaire);
         buttonScan.setOnClickListener(v -> {
@@ -119,11 +131,40 @@ public class FragmentInventaire extends Fragment {
         updateUiFromCount(list.size());
     }
 
-    private void onRecipientScanned(String uuid) {
-        if (adapter.removeByUuid(uuid)) {
-            Toast.makeText(mContext, getString(R.string.inventaire_scanned_toast), Toast.LENGTH_SHORT).show();
+    /** QR connu : popup « Valider » pour enregistrer la date d’inventaire et retirer de la liste. */
+    private void onRecipientScannedKnown(Recipient recipient) {
+        String uuid = recipient.getUuid();
+        Runnable onValidated = () -> {
+            if (adapter.removeByUuid(uuid)) {
+                Toast.makeText(mContext, getString(R.string.inventaire_scanned_toast), Toast.LENGTH_SHORT).show();
+                updateUiFromCount(adapter.getRemainingCount());
+            }
+        };
+        RecipientDialogHelper.show(requireContext(), getLayoutInflater(), recipient,
+                RecipientDialogHelper.Mode.VALIDATE, null, onValidated, onValidated);
+    }
+
+    /** Nouveau QR (inconnu en base) : popup « Nouveau récipient » avec bouton « Ajouter ». */
+    private void openNewRecipientDialog(Recipient recipient) {
+        RecipientDialogHelper.show(requireContext(), getLayoutInflater(), recipient,
+                RecipientDialogHelper.Mode.ADD, null, null, null);
+    }
+
+    /** Même popup que dans Récipients (Modifier / Supprimer). Après sauvegarde, met à jour l’item dans la liste. */
+    private void openModifyDialog(Recipient recipient) {
+        String uuid = recipient.getUuid();
+        Runnable onRefresh = () -> {
+            Recipient updated = HelperDb.db.getRecipient(uuid);
+            if (updated != null) {
+                adapter.updateItemByUuid(uuid, AdapterListItemRecipient.fromRecipient(updated));
+            }
+        };
+        Runnable onDelete = () -> {
+            adapter.removeByUuid(uuid);
             updateUiFromCount(adapter.getRemainingCount());
-        }
+        };
+        RecipientDialogHelper.show(requireContext(), getLayoutInflater(), recipient,
+                RecipientDialogHelper.Mode.EDIT, onRefresh, null, onDelete);
     }
 
     private void updateUiFromCount(int remaining) {

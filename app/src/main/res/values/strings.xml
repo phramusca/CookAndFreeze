@@ -10,6 +10,14 @@
     <string name="oldest_recipients">Plus anciens</string>
     <string name="empty_content">Aucun contenu</string>
     <string name="modify">Modifier</string>
+    <string name="action_add">Ajouter</string>
+    <string name="dialog_title_new_recipient">Nouveau récipient</string>
+    <string name="action_validate">Valider</string>
+    <string name="delete">Supprimer</string>
+    <string name="delete_confirm_title">Supprimer ce récipient ?</string>
+    <string name="delete_confirm_message">Cette action est irréversible.</string>
+    <string name="date_inventory">Dernier inventaire</string>
+    <string name="inventaire_reset">Remettre à zéro</string>
     <string name="cancel">Annuler</string>
     <string name="clear">Effacer</string>
     <string name="now">Maintenant</string>

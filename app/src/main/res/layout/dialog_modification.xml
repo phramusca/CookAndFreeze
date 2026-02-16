@@ -6,23 +6,28 @@
     android:layout_height="wrap_content"
     android:padding="24dp">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@color/text_primary"
-        android:layout_marginBottom="8dp"
-        tools:text="Récipient 001" />
+        android:hint="Nom"
+        app:boxBackgroundMode="outline"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="Récipient 001" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/date_frozen"
         app:boxBackgroundMode="outline"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:enabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -32,6 +37,17 @@
             android:inputType="none"
             tools:text="01/01/2024 12:00" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/inventory_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:visibility="gone"
+        tools:text="Dernier inventaire: 15/02/2025"
+        tools:visibility="visible" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -80,4 +96,13 @@
             android:layout_height="wrap_content"
             android:text="@string/now" />
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_delete"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="8dp"
+        android:text="@string/delete" />
 </LinearLayout>
