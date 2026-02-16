@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         int[] tabIcons = {
                 R.drawable.ic_baseline_kitchen_24,
-                R.drawable.ic_baseline_playlist_add_check_24,
-                R.drawable.ic_baseline_assignment_24
+                R.drawable.ic_baseline_assignment_24,
+                R.drawable.ic_baseline_bar_chart_24
         };
 
         SectionsPagerAdapter sectionsPagerAdapter
