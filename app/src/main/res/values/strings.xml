@@ -26,7 +26,7 @@
     <string name="now">Maintenant</string>
     <string name="reset">Réinitialiser</string>
     <string name="inventory_stats">Statistiques</string>
-    <string name="date_frozen">Date de congélation</string>
+    <string name="date_added">Date d\'ajout</string>
     <string name="inventaire_title">Scanne-les tous !</string>
     <string name="inventaire_subtitle">Scanne chaque récipient pour l’enlever de la liste.\nObjectif : liste vide.</string>
     <string name="inventaire_remaining">Il en reste %1$d/%2$d !</string>

@@ -2,10 +2,14 @@ package org.phramusca.cookandfreeze.ui.recipient;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 import org.phramusca.cookandfreeze.R;
 import org.phramusca.cookandfreeze.database.HelperDb;
@@ -44,7 +48,16 @@ public final class RecipientDialogHelper {
         DialogModificationBinding b = DialogModificationBinding.bind(view);
 
         if (mode == Mode.ADD) {
-            b.titleLayout.setHint(context.getString(R.string.dialog_title_new_recipient));
+            String prefix = context.getString(R.string.dialog_title_new_recipient) + ": ";
+            SpannableString sp = new SpannableString(prefix);
+            sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, prefix.length(), 0);
+            sp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.primary_500)), 0, "Nouveau".length(), 0);
+            b.titlePrefix.setText(sp);
+        } else {
+            String prefix = context.getString(R.string.dialog_title_recipient) + ": ";
+            SpannableString sp = new SpannableString(prefix);
+            sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, prefix.length(), 0);
+            b.titlePrefix.setText(sp);
         }
 
         b.title.setText(recipient.getTitle());
@@ -89,12 +102,14 @@ public final class RecipientDialogHelper {
 
         builder.setView(view);
 
-        builder.setPositiveButton(context.getString(positiveLabelId), (dialog, id) -> {
+        AlertDialog dialog = builder.create();
+
+        b.buttonPositive.setText(context.getString(positiveLabelId));
+        b.buttonPositive.setOnClickListener(v -> {
             if (mode == Mode.VALIDATE) {
                 HelperDb.db.updateInventoryDate(recipient.getUuid(), new Date());
                 if (onValidated != null) onValidated.run();
             } else {
-                // En EDIT on préserve la date d'inventaire ; en ADD la BDD mettra date d'ajout
                 Date inventoryDate = mode == Mode.EDIT ? recipient.getInventoryDate() : null;
                 HelperDb.db.insertOrUpdateRecipient(
                         b.title.getText().toString(),
@@ -104,11 +119,10 @@ public final class RecipientDialogHelper {
                         inventoryDate);
                 if (onRefreshList != null) onRefreshList.run();
             }
+            dialog.dismiss();
         });
 
-        builder.setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> dialog.cancel());
-
-        AlertDialog dialog = builder.create();
+        b.buttonCancel.setOnClickListener(v -> dialog.cancel());
 
         b.buttonDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(context)

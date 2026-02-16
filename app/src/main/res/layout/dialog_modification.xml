@@ -7,27 +7,45 @@
     android:padding="24dp"
     android:background="@color/surface">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/title_layout"
+    <!-- Titre : "Nouveau récipient: xxx" ou "Récipient: xxx" + champ nom -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/label_name"
-        app:boxBackgroundMode="outline"
-        android:layout_marginBottom="12dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:baselineAligned="false"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/title_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            tools:text="Récipient: " />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_500"
             android:inputType="textCapWords"
-            tools:text="Récipient 001" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:minLines="1"
+            android:maxLines="1"
+            android:background="@null"
+            android:padding="0dp"
+            android:layout_marginStart="4dp"
+            tools:text="Soupe aux légumes" />
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/date_frozen"
+        android:hint="@string/date_added"
         app:boxBackgroundMode="outline"
         android:layout_marginBottom="6dp"
         android:enabled="false">
@@ -115,19 +133,39 @@
             app:iconPadding="0dp" />
     </LinearLayout>
 
-    <View
+    <!-- Supprimer à gauche, Annuler et Ajouter/Modifier à droite -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/surface_variant"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_delete"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:text="@string/delete"
-        android:textColor="@color/error" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_delete"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            android:textColor="@color/error" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_positive"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Ajouter" />
+    </LinearLayout>
 </LinearLayout>
