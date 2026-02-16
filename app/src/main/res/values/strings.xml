@@ -12,6 +12,9 @@
     <string name="modify">Modifier</string>
     <string name="action_add">Ajouter</string>
     <string name="dialog_title_new_recipient">Nouveau récipient</string>
+    <string name="dialog_title_recipient">Récipient</string>
+    <string name="label_name">Nom</string>
+    <string name="label_content">Contenu</string>
     <string name="action_validate">Valider</string>
     <string name="delete">Supprimer</string>
     <string name="delete_confirm_title">Supprimer ce récipient ?</string>

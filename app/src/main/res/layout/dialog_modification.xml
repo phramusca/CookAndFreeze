@@ -4,21 +4,31 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/surface">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="20dp"
+        tools:text="Nouveau récipient" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nom"
+        android:hint="@string/label_name"
         app:boxBackgroundMode="outline"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="16sp"
+            android:inputType="textCapWords"
             tools:text="Récipient 001" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -27,7 +37,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/date_frozen"
         app:boxBackgroundMode="outline"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="6dp"
         android:enabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -52,9 +62,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contenu"
+        android:hint="@string/label_content"
         app:boxBackgroundMode="outline"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/content"
@@ -64,6 +74,7 @@
             android:minLines="4"
             android:maxLines="8"
             android:gravity="top|start"
+            android:textSize="15sp"
             android:autofillHints="" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,12 +108,19 @@
             android:text="@string/now" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/surface_variant"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_delete"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="8dp"
-        android:text="@string/delete" />
+        android:text="@string/delete"
+        android:textColor="@color/error" />
 </LinearLayout>

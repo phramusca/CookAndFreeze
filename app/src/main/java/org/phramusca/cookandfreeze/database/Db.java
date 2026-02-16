@@ -52,11 +52,9 @@ public class Db {
             values.put(COL_UUID, uuid);
             values.put(COL_CONTENT, content);
             values.put(COL_DATE, HelperDateTime.formatUTCtoSqlUTC(date));
-            if (inventoryDate != null) {
-                values.put(COL_INVENTORY_DATE, HelperDateTime.formatUTCtoSqlUTC(inventoryDate));
-            } else {
-                values.putNull(COL_INVENTORY_DATE);
-            }
+            // À la création (inventoryDate null), date d'inventaire = date d'ajout
+            Date invDate = inventoryDate != null ? inventoryDate : date;
+            values.put(COL_INVENTORY_DATE, HelperDateTime.formatUTCtoSqlUTC(invDate));
             db.insertWithOnConflict(
                     TABLE_RECIPIENTS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         } catch (SQLiteException | IllegalStateException ex) {

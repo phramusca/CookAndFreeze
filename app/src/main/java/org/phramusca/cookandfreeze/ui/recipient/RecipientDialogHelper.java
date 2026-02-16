@@ -2,7 +2,7 @@ package org.phramusca.cookandfreeze.ui.recipient;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -45,6 +45,16 @@ public final class RecipientDialogHelper {
         View view = inflater.inflate(R.layout.dialog_modification, null);
         DialogModificationBinding b = DialogModificationBinding.bind(view);
 
+        TextView dialogTitle = view.findViewById(R.id.dialog_title);
+        if (mode == Mode.ADD) {
+            dialogTitle.setText(R.string.dialog_title_new_recipient);
+            dialogTitle.setTypeface(dialogTitle.getTypeface(), Typeface.BOLD);
+        } else {
+            String name = recipient.getTitle();
+            dialogTitle.setText(name != null && !name.isEmpty() ? name : context.getString(R.string.dialog_title_recipient));
+            dialogTitle.setTypeface(Typeface.create(dialogTitle.getTypeface(), Typeface.NORMAL));
+        }
+
         b.title.setText(recipient.getTitle());
         b.content.setText(recipient.getContent());
         b.date.setText(HelperDateTime.formatUTC(recipient.getDate(), HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true));
@@ -85,10 +95,6 @@ public final class RecipientDialogHelper {
                 break;
         }
 
-        if (mode == Mode.ADD) {
-            builder.setTitle(R.string.dialog_title_new_recipient);
-        }
-
         builder.setView(view);
 
         builder.setPositiveButton(context.getString(positiveLabelId), (dialog, id) -> {
@@ -96,12 +102,14 @@ public final class RecipientDialogHelper {
                 HelperDb.db.updateInventoryDate(recipient.getUuid(), new Date());
                 if (onValidated != null) onValidated.run();
             } else {
+                // En EDIT on préserve la date d'inventaire ; en ADD la BDD mettra date d'ajout
+                Date inventoryDate = mode == Mode.EDIT ? recipient.getInventoryDate() : null;
                 HelperDb.db.insertOrUpdateRecipient(
                         b.title.getText().toString(),
                         recipient.getUuid(),
                         b.content.getText().toString(),
                         recipient.getDate(),
-                        mode == Mode.EDIT ? recipient.getInventoryDate() : null);
+                        inventoryDate);
                 if (onRefreshList != null) onRefreshList.run();
             }
         });
