@@ -98,67 +98,6 @@
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/inventory_overview"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="8dp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardUseCompatPadding="true"
-                android:visibility="gone"
-                android:id="@+id/card_oldest">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/oldest_recipients"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginBottom="12dp" />
-
-                    <TextView
-                        android:id="@+id/text_oldest_recipient"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_secondary" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_inventory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
-
-            <TextView
-                android:id="@+id/text_empty_inventory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/inventory_empty"
-                android:textSize="16sp"
-                android:textColor="@color/text_secondary"
-                android:gravity="center"
-                android:padding="32dp"
-                android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
