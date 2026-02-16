@@ -44,6 +44,7 @@ public class FragmentInventaire extends Fragment {
     private LinearLayout layoutEmpty;
     private AdapterInventaire adapter;
     private ActivityResultLauncher<ScanOptions> barcodeLauncher;
+    private int totalCount;
 
     public FragmentInventaire(Context context) {
         mContext = context;
@@ -128,6 +129,7 @@ public class FragmentInventaire extends Fragment {
             cursor.close();
         }
         adapter.setItems(list);
+        totalCount = list.size();
         updateUiFromCount(list.size());
     }
 
@@ -168,7 +170,7 @@ public class FragmentInventaire extends Fragment {
     }
 
     private void updateUiFromCount(int remaining) {
-        textRemaining.setText(getString(R.string.inventaire_remaining, remaining));
+        textRemaining.setText(getString(R.string.inventaire_remaining, remaining, totalCount));
         if (remaining == 0) {
             recyclerView.setVisibility(View.GONE);
             layoutEmpty.setVisibility(View.VISIBLE);
