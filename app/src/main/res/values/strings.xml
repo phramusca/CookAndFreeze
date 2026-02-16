@@ -25,9 +25,9 @@
     <string name="inventory_stats">Statistiques</string>
     <string name="date_frozen">Date de congélation</string>
     <string name="inventaire_title">Scanne-les tous !</string>
-    <string name="inventaire_subtitle">Scanne chaque récipient pour l’enlever de la liste. Objectif : liste vide.</string>
+    <string name="inventaire_subtitle">Scanne chaque récipient pour l’enlever de la liste.\nObjectif : liste vide.</string>
     <string name="inventaire_remaining">Il en reste %d !</string>
-    <string name="inventaire_empty_title">Congélateur vide ! 🎉</string>
+    <string name="inventaire_empty_title">Tous trouvés ! 🎉</string>
     <string name="inventaire_empty_subtitle">Tu les as tous scannés. Bravo !</string>
     <string name="inventaire_scanned_toast">Un de moins !</string>
 </resources>
