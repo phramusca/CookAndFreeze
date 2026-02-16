@@ -7,16 +7,8 @@
     android:padding="24dp"
     android:background="@color/surface">
 
-    <TextView
-        android:id="@+id/dialog_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/text_primary"
-        android:layout_marginBottom="20dp"
-        tools:text="Nouveau récipient" />
-
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/label_name"
@@ -27,7 +19,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:inputType="textCapWords"
             tools:text="Récipient 001" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -89,23 +81,38 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/reset"
-            android:layout_marginEnd="8dp" />
+            android:contentDescription="@string/reset"
+            android:layout_marginEnd="4dp"
+            app:icon="@drawable/ic_refresh_24"
+            app:iconTint="@color/text_secondary"
+            app:iconGravity="textStart"
+            app:iconSize="24dp"
+            app:iconPadding="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_clear"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/clear"
-            android:layout_marginEnd="8dp" />
+            android:contentDescription="@string/clear"
+            android:layout_marginEnd="4dp"
+            app:icon="@drawable/ic_clear_24"
+            app:iconTint="@color/text_secondary"
+            app:iconGravity="textStart"
+            app:iconSize="24dp"
+            app:iconPadding="0dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_date_now"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/now" />
+            android:contentDescription="@string/now"
+            app:icon="@drawable/ic_schedule_24"
+            app:iconTint="@color/text_secondary"
+            app:iconGravity="textStart"
+            app:iconSize="24dp"
+            app:iconPadding="0dp" />
     </LinearLayout>
 
     <View

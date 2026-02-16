@@ -2,10 +2,8 @@ package org.phramusca.cookandfreeze.ui.recipient;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -45,14 +43,8 @@ public final class RecipientDialogHelper {
         View view = inflater.inflate(R.layout.dialog_modification, null);
         DialogModificationBinding b = DialogModificationBinding.bind(view);
 
-        TextView dialogTitle = view.findViewById(R.id.dialog_title);
         if (mode == Mode.ADD) {
-            dialogTitle.setText(R.string.dialog_title_new_recipient);
-            dialogTitle.setTypeface(dialogTitle.getTypeface(), Typeface.BOLD);
-        } else {
-            String name = recipient.getTitle();
-            dialogTitle.setText(name != null && !name.isEmpty() ? name : context.getString(R.string.dialog_title_recipient));
-            dialogTitle.setTypeface(Typeface.create(dialogTitle.getTypeface(), Typeface.NORMAL));
+            b.titleLayout.setHint(context.getString(R.string.dialog_title_new_recipient));
         }
 
         b.title.setText(recipient.getTitle());
