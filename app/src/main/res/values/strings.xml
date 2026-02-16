@@ -21,6 +21,7 @@
     <string name="delete_confirm_message">Cette action est irréversible.</string>
     <string name="date_inventory">Dernier inventaire</string>
     <string name="inventaire_reset">Remettre à zéro</string>
+    <string name="inventaire_reset_confirm">Vous êtes sûr ?</string>
     <string name="cancel">Annuler</string>
     <string name="clear">Effacer</string>
     <string name="now">Maintenant</string>

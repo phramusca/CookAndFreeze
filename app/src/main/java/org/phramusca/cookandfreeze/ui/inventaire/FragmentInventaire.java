@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -96,7 +97,11 @@ public class FragmentInventaire extends Fragment {
         loadList();
 
         MaterialButton buttonReset = view.findViewById(R.id.button_inventaire_reset);
-        buttonReset.setOnClickListener(v -> loadList());
+        buttonReset.setOnClickListener(v -> new AlertDialog.Builder(requireContext())
+                .setMessage(R.string.inventaire_reset_confirm)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.inventaire_reset, (d, which) -> loadList())
+                .show());
 
         ExtendedFloatingActionButton buttonScan = view.findViewById(R.id.button_scan_inventaire);
         buttonScan.setOnClickListener(v -> {
