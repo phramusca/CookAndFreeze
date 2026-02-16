@@ -76,7 +76,9 @@ public class AdapterCursorRecipient extends AdapterCursor<AdapterLoad.UserViewHo
                 HelperDateTime.DateTimeFormat.HUMAN_SIMPLE, true);
         userViewHolder.item_line3.setText(dateDisplay);
 
-        userViewHolder.itemView.setOnClickListener(view -> sendListener(adapterListItemRecipient));
+        // Clic sur la vue qui consomme le touch (layout_item), pas seulement sur itemView (CardView)
+        View clickTarget = userViewHolder.itemView.findViewById(R.id.layout_item);
+        (clickTarget != null ? clickTarget : userViewHolder.itemView).setOnClickListener(view -> sendListener(adapterListItemRecipient));
     }
 
     private final ArrayList<IListenerAdapterRecipient> mListListener = new ArrayList<>();
