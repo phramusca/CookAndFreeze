@@ -62,6 +62,12 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Ligne de séparation bandeau / liste -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@color/primary_500" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
